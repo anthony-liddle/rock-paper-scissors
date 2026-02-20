@@ -18,7 +18,7 @@ console.log(
   'color: #33ff33; font-family: monospace; font-size: 12px;'
 );
 console.log(
-  '%Our source code will not save you.',
+  '%cOur source code will not save you.',
   'color: #1a991a; font-family: monospace; font-size: 12px;'
 );
 console.log(
