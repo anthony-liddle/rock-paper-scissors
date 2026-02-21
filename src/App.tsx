@@ -16,7 +16,7 @@ import { DialogueBox } from '@components/DialogueBox';
 import { RoundResult } from '@components/RoundResult';
 import { EndingScreen } from '@components/EndingScreen';
 import { SettingsBar } from '@components/SettingsBar';
-import '@styles/crt.css';
+import '@styles/index.css';
 
 function App() {
   const { phase, tensionState, endingType, isRebooting } = useGameState();

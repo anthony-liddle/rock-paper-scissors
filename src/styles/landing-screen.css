@@ -1,0 +1,58 @@
+/* =============================================
+   LANDING SCREEN
+   ============================================= */
+
+.landing-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  gap: 24px;
+  z-index: 1;
+}
+
+.title-ascii {
+  font-size: 8px;
+  line-height: 1.1;
+  color: var(--green-primary);
+  text-shadow: 0 0 15px rgba(51, 255, 51, 0.5);
+  text-align: center;
+}
+
+.tagline {
+  font-size: 22px;
+  color: var(--green-dim);
+  font-style: italic;
+}
+
+.start-btn {
+  background: transparent;
+  border: 2px solid var(--green-primary);
+  color: var(--green-bright);
+  font-family: 'VT323', monospace;
+  font-size: 28px;
+  padding: 16px 48px;
+  cursor: pointer;
+  text-shadow: 0 0 8px var(--green-primary);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease, background 0.2s, box-shadow 0.2s;
+}
+
+.start-btn-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.start-btn:hover {
+  background: rgba(51, 255, 51, 0.15);
+  box-shadow:
+    0 0 20px rgba(51, 255, 51, 0.3),
+    inset 0 0 20px rgba(51, 255, 51, 0.1);
+}
+
+.footer-text {
+  font-size: 16px;
+  color: var(--green-dim);
+}

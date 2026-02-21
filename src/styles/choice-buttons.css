@@ -1,0 +1,80 @@
+/* =============================================
+   CHOICE BUTTONS
+   ============================================= */
+
+.choice-buttons {
+  display: flex;
+  gap: 20px;
+  padding-top: 14px;
+  padding-bottom: 8px;
+}
+
+.choice-btn {
+  background: transparent;
+  border: 1px solid var(--green-dim);
+  color: var(--green-primary);
+  font-family: 'VT323', monospace;
+  font-size: 22px;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: all 0.15s;
+  position: relative;
+  text-shadow:
+    0 0 4px var(--bg-dark),
+    0 0 8px var(--bg-dark),
+    0 0 12px var(--bg-dark);
+}
+
+.choice-btn:hover {
+  background: rgba(51, 255, 51, 0.1);
+  border-color: var(--green-primary);
+  text-shadow:
+    0 0 4px var(--bg-dark),
+    0 0 8px var(--bg-dark),
+    0 0 12px var(--bg-dark),
+    0 0 10px var(--green-primary);
+  box-shadow: 0 0 10px rgba(51, 255, 51, 0.2);
+}
+
+.choice-btn:active {
+  background: rgba(51, 255, 51, 0.2);
+  transform: scale(0.97);
+}
+
+.choice-key {
+  color: var(--green-dim);
+  font-size: 18px;
+}
+
+/* =============================================
+   HOVER COMMENTARY
+   ============================================= */
+
+.choice-btn-wrapper {
+  position: relative;
+}
+
+.hover-commentary {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  color: var(--green-dim);
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  padding: 2px 8px;
+  pointer-events: none;
+  z-index: 15;
+  text-shadow:
+    0 0 4px var(--bg-dark),
+    0 0 8px var(--bg-dark);
+  animation: hover-comment-fade 2s ease-out forwards;
+}
+
+@keyframes hover-comment-fade {
+  0% { opacity: 0; }
+  15% { opacity: 1; }
+  75% { opacity: 1; }
+  100% { opacity: 0; }
+}
