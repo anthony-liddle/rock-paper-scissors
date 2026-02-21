@@ -14,6 +14,7 @@ export const PERMISSION_THRESHOLDS: PermissionThreshold[] = [
   { type: 'fullscreen', threshold: 80 },
 ];
 
+// Returns the next permission to request based on tension score and history
 export function getNextPermission(
   tensionScore: number,
   history: PermissionHistoryEntry[],
@@ -32,6 +33,7 @@ export interface PermissionResult {
   data?: string;
 }
 
+// Requests notification permission and shows a temporary notification
 async function requestNotification(): Promise<PermissionResult> {
   try {
     const result = await Notification.requestPermission();
@@ -52,6 +54,7 @@ async function requestNotification(): Promise<PermissionResult> {
   }
 }
 
+// Requests geolocation permission and returns the city name
 async function requestGeolocation(): Promise<PermissionResult> {
   try {
     const position = await new Promise<GeolocationPosition>((resolve, reject) => {
@@ -83,6 +86,7 @@ async function requestGeolocation(): Promise<PermissionResult> {
   }
 }
 
+// Requests camera permission and returns a media stream
 async function requestCamera(): Promise<PermissionResult> {
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ video: true });
@@ -93,6 +97,7 @@ async function requestCamera(): Promise<PermissionResult> {
   }
 }
 
+// Requests microphone permission and returns a media stream
 async function requestMicrophone(): Promise<PermissionResult> {
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -103,6 +108,7 @@ async function requestMicrophone(): Promise<PermissionResult> {
   }
 }
 
+// Requests fullscreen permission and returns a boolean
 async function requestFullscreen(): Promise<PermissionResult> {
   try {
     await document.documentElement.requestFullscreen();
@@ -112,6 +118,7 @@ async function requestFullscreen(): Promise<PermissionResult> {
   }
 }
 
+// Requests a browser permission and returns a boolean
 export async function requestBrowserPermission(
   type: PermissionType,
 ): Promise<PermissionResult> {
