@@ -461,7 +461,24 @@ All systems driven by GameContext.
 
 ---
 
-# 17. Emotional Arc
+# 17. Analytics
+
+Track player behaviour to understand engagement patterns without compromising the game's privacy-first ethos.
+
+**Key questions to answer:**
+
+- How many players reach each tension state?
+- What percentage of players grant permissions (real and simulated)?
+- Win/loss ratios across all players — is the robot too easy or too hard?
+- How many rounds does the average session last?
+- Which ending do players reach more often — BROKEN or ESCAPED?
+- Do players come back after finishing?
+
+**Approach:** PostHog with anonymous, cookieless tracking. No session replay. Thin wrapper to avoid vendor lock-in. See SPEC.md Section 18 for full event schema.
+
+---
+
+# 18. Emotional Arc
 
 1. Nostalgia
 2. Playfulness
