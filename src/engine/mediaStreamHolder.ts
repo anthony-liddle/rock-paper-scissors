@@ -1,4 +1,4 @@
-/**
+/*
  * Holds active camera/microphone MediaStreams so that
  * hardware indicator lights stay on for the game session.
  * Call releaseAll() on game end or reset.

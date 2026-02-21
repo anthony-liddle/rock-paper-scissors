@@ -179,6 +179,7 @@ export function ChoiceButtons() {
   if (phase !== 'playing' || !dialogueComplete || roundPhase === 'animating' || roundPhase === 'revealing' || pendingPermission) return null;
 
   // Confirm mode: show confirmation prompt
+  // TODO: ensure the text in the confirmation reflects what the prompt is asking
   if (confirming) {
     return (
       <div className="choice-buttons">

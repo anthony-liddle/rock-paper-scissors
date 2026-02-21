@@ -2,15 +2,13 @@ import { pickRandom } from '@utils/random';
 
 const GLITCH_CHARS = ['▓', '░', '█', '▒', '╳', '#', '@'];
 
-/**
- * Apply visual corruption effects to an ASCII animation frame.
- * Pure function — no side effects.
- *
- * Effects:
- * 1. Character substitution — replace random non-whitespace chars with glitch chars
- * 2. Row overlay — swap rows from a random alternate frame
- * 3. Row duplication — duplicate a row, shifting content down (screen tear)
- */
+// Apply visual corruption effects to an ASCII animation frame.
+// Pure function — no side effects.
+//
+// Effects:
+// 1. Character substitution — replace random non-whitespace chars with glitch chars
+// 2. Row overlay — swap rows from a random alternate frame
+// 3. Row duplication — duplicate a row, shifting content down (screen tear)
 export function corruptFrame(
   frame: string,
   allFrames: string[],
