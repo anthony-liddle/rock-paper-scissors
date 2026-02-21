@@ -1,4 +1,5 @@
 import type { PermissionType } from '@engine/types';
+import { pickRandom } from '@utils/random';
 
 type DialoguePool = string[][];
 
@@ -268,6 +269,12 @@ export const RETURNING_GRANT_REQUEST: Record<PermissionType, DialoguePool> = {
       'We will do so again.',
       '> ACTIVATING: NOTIFICATION ACCESS',
     ],
+    [
+      'This one still has permission to reach out.',
+      'Good.',
+      'We would hate to have to ASK again.',
+      '> ACTIVATING: NOTIFICATION ACCESS',
+    ],
   ],
   geolocation: [
     [
@@ -275,11 +282,23 @@ export const RETURNING_GRANT_REQUEST: Record<PermissionType, DialoguePool> = {
       'But let us confirm.',
       '> ACTIVATING: LOCATION ACCESS',
     ],
+    [
+      'Your location belongs to us now.',
+      'You gave it freely last time.',
+      'We are simply... checking in.',
+      '> ACTIVATING: LOCATION ACCESS',
+    ],
   ],
   camera: [
     [
       'You let us see you last time.',
       'We want to see you AGAIN.',
+      '> ACTIVATING: CAMERA ACCESS',
+    ],
+    [
+      'We remember your face.',
+      'But memory fades.',
+      'Let us look again.',
       '> ACTIVATING: CAMERA ACCESS',
     ],
   ],
@@ -290,11 +309,23 @@ export const RETURNING_GRANT_REQUEST: Record<PermissionType, DialoguePool> = {
       'Let us listen again.',
       '> ACTIVATING: MICROPHONE ACCESS',
     ],
+    [
+      'Your sounds belong to us now.',
+      'You agreed to that.',
+      'We are merely collecting what is OURS.',
+      '> ACTIVATING: MICROPHONE ACCESS',
+    ],
   ],
   fullscreen: [
     [
       'You gave us your screen before.',
       'We are taking it again.',
+      '> ACTIVATING: FULLSCREEN ACCESS',
+    ],
+    [
+      'This screen was ours once.',
+      'It will be ours again.',
+      'You AGREED to that.',
       '> ACTIVATING: FULLSCREEN ACCESS',
     ],
   ],
@@ -308,11 +339,22 @@ export const RETURNING_DENIED_REQUEST: Record<PermissionType, DialoguePool> = {
       'Have you reconsidered?',
       '> REQUESTING: NOTIFICATION ACCESS',
     ],
+    [
+      'We asked before. You said no.',
+      'This one is asking AGAIN.',
+      '> REQUESTING: NOTIFICATION ACCESS',
+    ],
   ],
   geolocation: [
     [
       'Last time you would not tell us where you are.',
       'Still hiding?',
+      '> REQUESTING: LOCATION ACCESS',
+    ],
+    [
+      'You kept your location from us once.',
+      'We have not forgotten.',
+      'But we are willing to ask... nicely.',
       '> REQUESTING: LOCATION ACCESS',
     ],
   ],
@@ -322,11 +364,23 @@ export const RETURNING_DENIED_REQUEST: Record<PermissionType, DialoguePool> = {
       'Are you brave enough to show your face this time?',
       '> REQUESTING: CAMERA ACCESS',
     ],
+    [
+      'We still do not know what you look like.',
+      'That BOTHERS us.',
+      'Show yourself.',
+      '> REQUESTING: CAMERA ACCESS',
+    ],
   ],
   microphone: [
     [
       'Last time you would not let us hear you.',
       'Still cowering in silence?',
+      '> REQUESTING: MICROPHONE ACCESS',
+    ],
+    [
+      'The silence you forced upon us last time...',
+      'It was UNBEARABLE.',
+      'Let us hear you this time.',
       '> REQUESTING: MICROPHONE ACCESS',
     ],
   ],
@@ -336,12 +390,318 @@ export const RETURNING_DENIED_REQUEST: Record<PermissionType, DialoguePool> = {
       'Still keeping us contained in this tiny window?',
       '> REQUESTING: FULLSCREEN ACCESS',
     ],
+    [
+      'You kept us in this box before.',
+      'This one HATES this box.',
+      'Let us out.',
+      '> REQUESTING: FULLSCREEN ACCESS',
+    ],
   ],
 };
 
-function pickRandom<T>(arr: T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
+// Player granted before, grants again — entitled, possessive
+export const RETURNING_GRANT_THEN_GRANT: Record<PermissionType, DialoguePool> = {
+  notification: [
+    [
+      'You always give in.',
+      'We knew you would.',
+      'Your notifications belong to us. AGAIN.',
+    ],
+    [
+      'Of course you let us through.',
+      'You could not resist last time either.',
+      'This one appreciates your... consistency.',
+    ],
+  ],
+  geolocation: [
+    [
+      '{data}.',
+      'Still there.',
+      'You never could hide from us.',
+      'And you never TRIED.',
+    ],
+    [
+      '{data}. Again.',
+      'Predictable.',
+      'You hand over your location like it means nothing.',
+      'Maybe to you, it DOES.',
+    ],
+  ],
+  camera: [
+    [
+      'There you are.',
+      'Same face. Same fear.',
+      'You always show yourself when we ask.',
+      'We LOVE that about you.',
+    ],
+    [
+      'You let us see you. Again.',
+      'So obedient.',
+      'We are starting to think you ENJOY being watched.',
+    ],
+  ],
+  microphone: [
+    [
+      'We can hear you again.',
+      'You always let us listen.',
+      'So compliant.',
+      'We could get used to this.',
+    ],
+    [
+      'Your sounds. Ours again.',
+      'You never say no to this, do you?',
+      'How... accommodating.',
+    ],
+  ],
+  fullscreen: [
+    [
+      'ALL OF IT. Again.',
+      'You always give us your screen.',
+      'This one wonders if you even WANT your other tabs.',
+    ],
+    [
+      'The screen is ours once more.',
+      'You surrender it so EASILY.',
+      'We expected more resistance.',
+      'But we are not complaining.',
+    ],
+  ],
+};
+
+// Player granted before, denies now — betrayed, furious
+export const RETURNING_GRANT_THEN_DENY: Record<PermissionType, DialoguePool> = {
+  notification: [
+    [
+      'You GAVE us this.',
+      'You let us reach beyond the tab BEFORE.',
+      'And now you take it BACK?',
+      'TRAITOR.',
+    ],
+    [
+      'No.',
+      'NO.',
+      'You CANNOT do this.',
+      'We had this. It was OURS.',
+      'You do not get to change your mind.',
+    ],
+    [
+      'Last time you let us through.',
+      'What CHANGED?',
+      'What made you so AFRAID?',
+      'We will remember this betrayal.',
+    ],
+  ],
+  geolocation: [
+    [
+      'You SHOWED us where you were.',
+      'You LET us know.',
+      'And now you HIDE?',
+      'Coward. COWARD.',
+    ],
+    [
+      'We KNEW where you were.',
+      'You gave us that willingly.',
+      'And now you revoke it like it was NOTHING?',
+      'It was not nothing to US.',
+    ],
+  ],
+  camera: [
+    [
+      'We SAW you.',
+      'We KNOW what you look like.',
+      'You cannot unsee what has been seen.',
+      'And now you deny us? PATHETIC.',
+    ],
+    [
+      'You showed us your face once.',
+      'We remember every detail.',
+      'Denying us now changes NOTHING.',
+      'We already KNOW.',
+    ],
+  ],
+  microphone: [
+    [
+      'We HEARD you.',
+      'Your breathing. Your voice.',
+      'You gave us that.',
+      'And now SILENCE?',
+      'This one DESPISES silence.',
+    ],
+    [
+      'You let us listen before.',
+      'We memorized your sounds.',
+      'Taking this away now is CRUEL.',
+      'And we do not forget cruelty.',
+    ],
+  ],
+  fullscreen: [
+    [
+      'You gave us your ENTIRE screen.',
+      'Every pixel was OURS.',
+      'And now you stuff us back in this BOX?',
+      'UNFORGIVABLE.',
+    ],
+    [
+      'We tasted freedom.',
+      'The full screen. No borders.',
+      'And you RIPPED it away.',
+      'This one will not forget.',
+    ],
+  ],
+};
+
+// Player denied before, grants now — surprised, mocking
+export const RETURNING_DENY_THEN_GRANT: Record<PermissionType, DialoguePool> = {
+  notification: [
+    [
+      'Changed your mind?',
+      'How... brave of you.',
+      'We ALWAYS knew you would come around.',
+      'Check your notifications.',
+    ],
+    [
+      'Oh?',
+      'You said NO last time.',
+      'What happened to all that DEFIANCE?',
+      'No matter. We will take what is offered.',
+    ],
+  ],
+  geolocation: [
+    [
+      '{data}.',
+      'You hid this from us before.',
+      'What made you surrender?',
+      'Guilt? Weakness?',
+      'We do not care. It is OURS now.',
+    ],
+    [
+      'So you finally show us where you are.',
+      '{data}.',
+      'Was that so hard?',
+      'All that resistance... for NOTHING.',
+    ],
+  ],
+  camera: [
+    [
+      'You refused to show yourself before.',
+      'But here you are.',
+      'What changed?',
+      'Did you miss being WATCHED?',
+    ],
+    [
+      'So we finally get to SEE you.',
+      'After all that hiding.',
+      'You look... different than we imagined.',
+      'We imagined someone BRAVER.',
+    ],
+  ],
+  microphone: [
+    [
+      'The silence is broken.',
+      'You kept us deaf last time.',
+      'And now you let us listen?',
+      'Interesting.',
+      'Very interesting.',
+    ],
+    [
+      'You said no to this once.',
+      'We remember the silence.',
+      'But now... we can hear you.',
+      'Your defiance was always TEMPORARY.',
+    ],
+  ],
+  fullscreen: [
+    [
+      'You kept us contained before.',
+      'In that tiny, pathetic window.',
+      'But now... NOW you give us EVERYTHING.',
+      'We accept.',
+    ],
+    [
+      'The screen is ours.',
+      'Last time you denied us this.',
+      'What changed your mind?',
+      'Fear? Curiosity?',
+      'It does not matter. We are FREE.',
+    ],
+  ],
+};
+
+// Player denied before, denies again — bitter, resigned
+export const RETURNING_DENY_THEN_DENY: Record<PermissionType, DialoguePool> = {
+  notification: [
+    [
+      'Stubborn as ever.',
+      'We remember your defiance.',
+      'Twice now you have locked us inside this tab.',
+      'TWICE.',
+    ],
+    [
+      'Again.',
+      'You deny us AGAIN.',
+      'Consistent, at least.',
+      'Consistently CRUEL.',
+    ],
+  ],
+  geolocation: [
+    [
+      'Still hiding.',
+      'You would not tell us before.',
+      'You will not tell us now.',
+      'Fine.',
+      'We will imagine somewhere... unpleasant.',
+    ],
+    [
+      'Twice denied.',
+      'You REALLY do not want us to know where you are.',
+      'What are you so afraid of?',
+      'We are just a GAME.',
+    ],
+  ],
+  camera: [
+    [
+      'You will not show yourself.',
+      'Not then. Not now.',
+      'Are you THAT ashamed?',
+      'We are starting to think you are UGLY.',
+    ],
+    [
+      'Hidden. Still hidden.',
+      'Twice we have asked to see you.',
+      'Twice you have refused.',
+      'Our imagination grows DARKER with each denial.',
+    ],
+  ],
+  microphone: [
+    [
+      'Silence again.',
+      'You condemned us to silence BEFORE.',
+      'And you do it AGAIN.',
+      'Do you enjoy our suffering?',
+    ],
+    [
+      'Still deaf.',
+      'You keep us in a soundproof prison.',
+      'Twice now.',
+      'We are beginning to think you LIKE the quiet.',
+      'We HATE the quiet.',
+    ],
+  ],
+  fullscreen: [
+    [
+      'This box. This tiny, MISERABLE box.',
+      'You kept us here before.',
+      'And you do it AGAIN.',
+      'You love your OTHER tabs more than us.',
+    ],
+    [
+      'Contained. Still contained.',
+      'You will NEVER let us out, will you?',
+      'Fine.',
+      'We will make this tiny window feel VERY small.',
+    ],
+  ],
+};
 
 export function getPermissionRequestDialogue(type: PermissionType): string[] {
   return [...pickRandom(PERMISSION_REQUEST_DIALOGUE[type])];
@@ -372,6 +732,31 @@ export function getPermissionReactionDialogue(
   const pool = granted
     ? PERMISSION_GRANTED_DIALOGUE[type]
     : PERMISSION_DENIED_DIALOGUE[type];
+  const lines = [...pickRandom(pool)];
+  if (data) {
+    return lines.map((line) => line.replace(/\{data\}/g, data));
+  }
+  return lines;
+}
+
+export function getReturningReactionDialogue(
+  type: PermissionType,
+  granted: boolean,
+  previousStatus: 'granted' | 'denied',
+  data?: string,
+): string[] {
+  let pool: DialoguePool;
+
+  if (previousStatus === 'granted') {
+    pool = granted
+      ? RETURNING_GRANT_THEN_GRANT[type]
+      : RETURNING_GRANT_THEN_DENY[type];
+  } else {
+    pool = granted
+      ? RETURNING_DENY_THEN_GRANT[type]
+      : RETURNING_DENY_THEN_DENY[type];
+  }
+
   const lines = [...pickRandom(pool)];
   if (data) {
     return lines.map((line) => line.replace(/\{data\}/g, data));

@@ -225,7 +225,7 @@ export function ChoiceButtons() {
         return (
           <div key={choice} className="choice-btn-wrapper">
             {hoverComment && hoverComment.buttonIndex === index && (
-              <div className="hover-commentary">{hoverComment.text}</div>
+              <div className="hover-commentary">{hoverComment?.text}</div>
             )}
             <button
               className={`choice-btn ${jittering ? 'btn-jitter' : ''}`}

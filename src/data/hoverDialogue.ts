@@ -1,4 +1,5 @@
 import type { Choice, TensionState } from '@engine/types';
+import { pickRandom } from '@utils/random';
 
 type ChoicePool = Record<Choice, string[]>;
 
@@ -119,10 +120,6 @@ const POOLS: Record<Exclude<TensionState, 'CALM'>, ChoicePool> = {
   UNSTABLE: UNSTABLE_POOL,
   MELTDOWN: MELTDOWN_POOL,
 };
-
-function pickRandom<T>(arr: T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
 
 export function getHoverCommentary(
   tension: TensionState,

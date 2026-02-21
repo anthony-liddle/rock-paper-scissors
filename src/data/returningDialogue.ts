@@ -1,10 +1,7 @@
 import type { PlayerMemory } from '@engine/playerMemory';
 import type { TensionState } from '@engine/types';
 import { getAbandonmentReturnLine, getAbandonmentMidGameLine } from '@data/tabLeaveDialogue';
-
-function pickRandom<T>(arr: T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
+import { pickRandom } from '@utils/random';
 
 // --- Landing monologue for returning players ---
 

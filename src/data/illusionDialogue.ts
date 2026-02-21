@@ -1,5 +1,6 @@
 import type { TensionState } from '@engine/types';
 import type { ConsoleMessage, LogLevel } from '@data/consoleDialogue';
+import { pickRandom } from '@utils/random';
 
 // --- Browser snapshot shape ---
 
@@ -40,10 +41,6 @@ const TENSION_ORDER: TensionState[] = ['CALM', 'UNEASY', 'IRRITATED', 'UNSTABLE'
 
 function tensionAtLeast(current: TensionState, minimum: TensionState): boolean {
   return TENSION_ORDER.indexOf(current) >= TENSION_ORDER.indexOf(minimum);
-}
-
-function pickRandom<T>(arr: T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)];
 }
 
 const categories: CategoryPool[] = [

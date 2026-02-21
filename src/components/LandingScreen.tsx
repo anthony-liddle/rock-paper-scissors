@@ -59,11 +59,13 @@ export function LandingScreen() {
         </div>
         <span className={`next-hint${showNext ? ' next-hint-visible' : ''}`}>[NEXT &gt;]</span>
       </div>
-      {dialogueComplete && done && (
-        <button className="start-btn" onClick={startGame}>
-          {'>'} INITIATE MATCH {'<'}
-        </button>
-      )}
+      <button
+        className={`start-btn${dialogueComplete && done ? ' start-btn-visible' : ''}`}
+        onClick={startGame}
+        disabled={!dialogueComplete || !done}
+      >
+        {'>'} INITIATE MATCH {'<'}
+      </button>
     </div>
   );
 }
