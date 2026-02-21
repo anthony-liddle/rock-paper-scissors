@@ -10,6 +10,7 @@ import {
   getFakeSystemMessage,
 } from '@data/consoleDialogue';
 import { getTabLeaveConsoleMessages, getTabReturnConsoleMessages } from '@data/tabLeaveDialogue';
+import { getMuteConsoleMessages } from '@data/muteDialogue';
 import { subscribe, getState } from '@engine/gameStore';
 import { illusionEngine } from '@engine/illusionEngine';
 
@@ -77,6 +78,13 @@ class ConsoleNarrator {
     });
 
     document.addEventListener('visibilitychange', this.handleVisibilityReturn);
+  }
+
+  onMusicMuteChanged(muted: boolean) {
+    const current = getState();
+    if (current.phase !== 'playing') return;
+    const messages = getMuteConsoleMessages(current.tensionState, muted);
+    emitSequence(messages, current.tensionState);
   }
 
   stop() {

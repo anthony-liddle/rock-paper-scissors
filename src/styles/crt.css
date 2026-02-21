@@ -1084,3 +1084,96 @@ body {
   0%, 100% { box-shadow: inset 0 0 100px 20px rgba(255, 0, 0, 0.1); }
   50% { box-shadow: inset 0 0 150px 40px rgba(255, 0, 0, 0.2); }
 }
+
+/* =============================================
+   SETTINGS BAR
+   ============================================= */
+
+.settings-bar {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  display: flex;
+  gap: 8px;
+  z-index: 15;
+}
+
+.settings-btn {
+  background: transparent;
+  border: none;
+  color: var(--green-dim);
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  padding: 4px 6px;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.15s;
+  text-shadow:
+    0 0 4px var(--bg-dark),
+    0 0 8px var(--bg-dark);
+}
+
+.settings-btn:hover {
+  opacity: 1;
+  color: var(--green-primary);
+}
+
+.settings-btn-off {
+  text-decoration: line-through;
+  opacity: 0.35;
+}
+
+.settings-btn-off:hover {
+  opacity: 0.8;
+}
+
+/* =============================================
+   REDUCED MOTION — disable animations + CRT effects
+   ============================================= */
+
+.crt-screen.reduced-motion,
+.crt-screen.reduced-motion *,
+.crt-screen.reduced-motion *::before,
+.crt-screen.reduced-motion *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Kill scanlines */
+.crt-screen.reduced-motion::before {
+  display: none !important;
+}
+
+/* Kill vignette */
+.crt-screen.reduced-motion::after {
+  display: none !important;
+}
+
+/* Kill CRT text glow on all elements */
+.crt-screen.reduced-motion .dialogue-box,
+.crt-screen.reduced-motion .dialogue-text,
+.crt-screen.reduced-motion .dialogue-prompt,
+.crt-screen.reduced-motion .ascii-animation,
+.crt-screen.reduced-motion .scoreboard,
+.crt-screen.reduced-motion .choice-btn,
+.crt-screen.reduced-motion .result-label,
+.crt-screen.reduced-motion .title-ascii,
+.crt-screen.reduced-motion .start-btn,
+.crt-screen.reduced-motion .ending-header,
+.crt-screen.reduced-motion .ending-message,
+.crt-screen.reduced-motion .ending-score,
+.crt-screen.reduced-motion .restart-btn,
+.crt-screen.reduced-motion .disruption-message,
+.crt-screen.reduced-motion .hover-commentary,
+.crt-screen.reduced-motion .next-hint,
+.crt-screen.reduced-motion .cursor,
+.crt-screen.reduced-motion .permission-btn,
+.crt-screen.reduced-motion .permission-waiting,
+.crt-screen.reduced-motion .disruption-processing {
+  text-shadow: none !important;
+}
+
+/* Kill cursor blink — solid cursor */
+.crt-screen.reduced-motion .cursor {
+  opacity: 1 !important;
+}
