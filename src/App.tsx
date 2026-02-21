@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useGameState } from '@engine/gameStore';
 import { useVisualEffects } from '@engine/useVisualEffects';
 import { useBrowserChrome } from '@engine/useBrowserChrome';
+import { useSettings } from '@engine/settings';
 import { consoleNarrator } from '@engine/consoleNarrator';
 import { devToolsDetector } from '@engine/devToolsDetector';
 import { tabLeaveDetector } from '@engine/tabLeaveDetector';
@@ -14,11 +15,13 @@ import { PermissionPrompt } from '@components/PermissionPrompt';
 import { DialogueBox } from '@components/DialogueBox';
 import { RoundResult } from '@components/RoundResult';
 import { EndingScreen } from '@components/EndingScreen';
+import { SettingsBar } from '@components/SettingsBar';
 import '@styles/crt.css';
 
 function App() {
   const { phase, tensionState, endingType, isRebooting } = useGameState();
   const { flashActive, tearStyle, colorBleedActive, endingRedBleed } = useVisualEffects();
+  const { reducedMotion } = useSettings();
   useBrowserChrome();
 
   useEffect(() => {
@@ -41,11 +44,13 @@ function App() {
     : '';
 
   return (
-    <div className={`crt-screen tension-${tensionState.toLowerCase()} ${shutdownClass}`}>
+    <div className={`crt-screen tension-${tensionState.toLowerCase()} ${shutdownClass}${reducedMotion ? ' reduced-motion' : ''}`}>
       {flashActive && <div className="screen-flash-overlay" />}
       {tearStyle && <div className="screen-tear-overlay" style={tearStyle} />}
       {colorBleedActive && <div className="screen-bleed-overlay" />}
       {endingRedBleed && <div className="ending-red-bleed" />}
+
+      <SettingsBar />
 
       {phase === 'landing' && <LandingScreen />}
 

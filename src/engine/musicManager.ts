@@ -83,6 +83,7 @@ class GameMusicManager {
   private trackEntries: TrackEntry[] = [];
   private initialized = false;
   private currentTension: TensionState = 'CALM';
+  private muted = false;
 
   constructor() {
     this.engine = new AudioEngine();
@@ -156,8 +157,21 @@ class GameMusicManager {
     return volumes[trackName]?.[tension] ?? 0.5;
   }
 
+  setMuted(muted: boolean): void {
+    this.muted = muted;
+    if (!this.initialized) return;
+    const mixer = this.buildMixer(this.currentTension);
+    mixer.masterVolume = muted ? 0 : 0.7;
+    this.engine.updateMixer(mixer);
+  }
+
   async start(): Promise<void> {
     if (!this.initialized) await this.initialize();
+    if (this.muted) {
+      const mixer = this.buildMixer(this.currentTension);
+      mixer.masterVolume = 0;
+      this.engine.updateMixer(mixer);
+    }
     await this.engine.resume();
     this.engine.play();
   }
@@ -175,13 +189,14 @@ class GameMusicManager {
 
     // Update which layers are active
     const mixer = this.buildMixer(tension);
+    if (this.muted) mixer.masterVolume = 0;
     this.engine.updateMixer(mixer);
   }
 
   // --- Sound Effects ---
 
   playSfx(type: 'win' | 'lose' | 'tie' | 'click' | 'permission' | 'disruption' | 'ending-broken' | 'ending-escaped'): void {
-    if (!this.initialized) return;
+    if (!this.initialized || this.muted) return;
 
     switch (type) {
       case 'win':

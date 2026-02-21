@@ -9,6 +9,7 @@ import { getPermissionRequestDialogue, getPermissionReactionDialogue, getReturni
 import { loadPlayerMemory, savePlayerMemory } from '@engine/playerMemory';
 import { getMemoryInjectedLine } from '@data/returningDialogue';
 import { getTabReturnLine } from '@data/tabLeaveDialogue';
+import { getMuteReactionLine, getResumptionLine } from '@data/muteDialogue';
 import { musicManager } from '@engine/musicManager';
 import { illusionEngine } from '@engine/illusionEngine';
 import { releaseAllStreams } from '@engine/mediaStreamHolder';
@@ -118,6 +119,36 @@ export function persistAbandonment() {
   const memory = loadPlayerMemory();
   memory.abandonmentCount++;
   savePlayerMemory(memory);
+}
+
+export function applyMusicMuteReaction(muted: boolean) {
+  if (state.phase !== 'playing') return;
+
+  if (muted) {
+    const newSpike = state.tensionSpike + 3;
+    setState(applyTensionUpdate(state.tensionScore, newSpike));
+  }
+
+  if (state.roundPhase === 'idle' || state.roundPhase === 'result') {
+    const reactionLine = getMuteReactionLine(state.tensionState, muted);
+
+    // The interrupted line + everything after it
+    const remaining = state.dialogueLines.slice(state.dialogueIndex);
+
+    let newLines: string[];
+    if (remaining.length > 0) {
+      const bridge = getResumptionLine(state.tensionState, muted);
+      newLines = [reactionLine, bridge, ...remaining];
+    } else {
+      newLines = [reactionLine];
+    }
+
+    setState({
+      dialogueLines: newLines,
+      dialogueIndex: 0,
+      dialogueComplete: newLines.length <= 1,
+    });
+  }
 }
 
 export function advanceDialogue() {

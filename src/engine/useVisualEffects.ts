@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useGameState } from '@engine/gameStore';
+import { useSettings } from '@engine/settings';
 import type { TensionState } from '@engine/types';
 
 interface VisualEffectState {
@@ -17,6 +18,7 @@ const PROB: Record<string, Record<TensionState, number>> = {
 
 export function useVisualEffects(): VisualEffectState {
   const { tensionState, phase, endingType } = useGameState();
+  const { reducedMotion } = useSettings();
   const [flashActive, setFlashActive] = useState(false);
   const [tearStyle, setTearStyle] = useState<React.CSSProperties | null>(null);
   const [colorBleedActive, setColorBleedActive] = useState(false);
@@ -27,9 +29,19 @@ export function useVisualEffects(): VisualEffectState {
     tensionRef.current = tensionState;
   }, [tensionState]);
 
+  // Clear all overlays when reduced motion is enabled
+  useEffect(() => {
+    if (reducedMotion) {
+      setFlashActive(false);
+      setTearStyle(null);
+      setColorBleedActive(false);
+      setEndingRedBleed(false);
+    }
+  }, [reducedMotion]);
+
   // Playing phase effects
   useEffect(() => {
-    if (phase !== 'playing') return;
+    if (phase !== 'playing' || reducedMotion) return;
 
     const timers: ReturnType<typeof setInterval>[] = [];
 
@@ -68,11 +80,11 @@ export function useVisualEffects(): VisualEffectState {
     }, 4000));
 
     return () => timers.forEach(clearInterval);
-  }, [phase]);
+  }, [phase, reducedMotion]);
 
   // Ending phase effects
   useEffect(() => {
-    if (phase !== 'ending') {
+    if (phase !== 'ending' || reducedMotion) {
       setEndingRedBleed(false);
       return;
     }
@@ -107,7 +119,7 @@ export function useVisualEffects(): VisualEffectState {
     }
 
     return () => timers.forEach(clearTimeout);
-  }, [phase, endingType]);
+  }, [phase, endingType, reducedMotion]);
 
   return { flashActive, tearStyle, colorBleedActive, endingRedBleed };
 }
