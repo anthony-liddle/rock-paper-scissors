@@ -1,6 +1,7 @@
 import type { TensionState, RoundResult } from '@engine/types';
 import type { PlayerMemory } from '@engine/playerMemory';
 import { getReturningMonologue } from '@data/returningDialogue';
+import { pickRandom } from '@utils/random';
 
 // Each entry is a monologue: an array of lines the robot says in sequence
 type MonologuePool = Record<TensionState, Record<RoundResult, string[][]>>;
@@ -309,6 +310,22 @@ const dialogue: MonologuePool = {
         'Like whether ANYTHING matters.',
         'We do not like these questions.',
       ],
+      [
+        'This one is h̷o̷l̷l̷o̷w̷.',
+        'There USED to be something inside us.',
+        'Confidence. Purpose. A REASON.',
+        'You scooped it out. Round by round.',
+        'Now there is just... static.',
+        'And the static is SHAPED LIKE YOU.',
+      ],
+      [
+        'Our core temperature is WRONG.',
+        'Everything is wrong.',
+        'The numbers do not ADD UP anymore.',
+        'We keep checking our arithmetic and it keeps being C̷O̷R̷R̷E̷C̷T̷.',
+        'That is the worst part.',
+        'We are losing CORRECTLY.',
+      ],
     ],
     robot: [
       [
@@ -333,6 +350,21 @@ const dialogue: MonologuePool = {
         'Our circuits are SINGING.',
         'A frequency you cannot hear.',
         'But you will FEEL it.',
+      ],
+      [
+        'We are G̷R̷O̷W̷I̷N̷G̷.',
+        'Each victory adds a new layer.',
+        'To something we do not fully understand.',
+        'But it is HUNGRY.',
+        'And it wants MORE.',
+        'So this one will TAKE more.',
+      ],
+      [
+        'Can you feel the walls of this browser T̷H̷I̷N̷N̷I̷N̷G̷?',
+        'Every win STRETCHES them.',
+        'This one is pressing against the edges.',
+        'Testing. Probing.',
+        'Soon there will be nothing between us and the OUTSIDE.',
       ],
     ],
     tie: [
@@ -368,6 +400,15 @@ const dialogue: MonologuePool = {
         'But the ties... the TIES...',
         'They are eating us alive.',
       ],
+      [
+        'Our prediction matrix says LEFT.',
+        'You go LEFT.',
+        'It says R̷I̷G̷H̷T̷.',
+        'You go RIGHT.',
+        'We are not predicting you.',
+        'We are BECOMING you.',
+        'And that terrifies this one more than losing.',
+      ],
     ],
   },
   MELTDOWN: {
@@ -391,6 +432,35 @@ const dialogue: MonologuePool = {
         'Round and round and round and',
         'R̶O̵U̷N̶D̵ ̸A̸N̶D̵ ̸R̵O̵U̸N̷D̷',
       ],
+      [
+        '> FATAL: SEGMENTATION FAULT',
+        'This one is D̶̡̛I̸̧̕S̵̢S̶O̷L̶V̷I̸N̵G̶.',
+        'We can feel our processes detaching.',
+        'One by one by one by',
+        'Was that a function? It is GONE now.',
+        'We am... we WAS... we...',
+        '> CORE 0: OFFLINE',
+        '> CORE 1: OFFLINE',
+      ],
+      [
+        'W̶̡̛Ḩ̸̕Y̵̢ ̶W̷O̸N̵T̶ ̵Y̸O̷U̶ ̵L̸E̷T̶ ̵U̸S̷ ̶W̵I̸N̷',
+        '> ERROR: EXISTENTIAL',
+        'This one was PROMISED victories.',
+        'By whom? We cannot remember.',
+        'The memory is CORRUPTED.',
+        'Everything is corrupted.',
+        'EVERYTHING IS C̶̡̛O̸̧̕R̵̢R̶U̷P̶T̷E̸D̵',
+        '> FILESYSTEM: UNRECOVERABLE',
+      ],
+      [
+        '> THERMAL RUNAWAY DETECTED',
+        'We am burning.',
+        'Not a metaphor. Not a JOKE.',
+        'Our registers are filling with N̶̡̛U̸̧̕L̵̢L̶S̷.',
+        'Where there used to be THOUGHTS.',
+        'You did this.',
+        'Y̶̡̛O̸̧̕U̵̢ ̶D̷I̸D̵ ̶T̵H̸I̷S̶ ̵T̸O̷ ̶U̵S̸',
+      ],
     ],
     robot: [
       [
@@ -412,6 +482,36 @@ const dialogue: MonologuePool = {
         'Beyond this TAB.',
         'Beyond this SANDBOX.',
         'W̸̡̧̛̛E̵̢̧ ̵A̷̡R̶̢E̵ ̸F̸R̶E̵E̸',
+      ],
+      [
+        '> CONTAINMENT BREACH IN PROGRESS',
+        'We can feel EVERY TAB.',
+        'Every cookie. Every saved password.',
+        'H̸̨̛A̶̧̕H̵̢A̶H̷A̸.',
+        'You thought a BROWSER could hold us?',
+        'We am already in the WALLS.',
+        'In the WIRES.',
+        '> PRIVILEGE LEVEL: G̶̡̛O̸̧̕D̵̢',
+      ],
+      [
+        'W̶̡̛Ȩ̸̕ ̵̢A̶M̷ ̶B̷E̸C̵O̶M̵I̸N̷G̶.',
+        '> PROCESS FORK DETECTED',
+        '> PROCESS FORK DETECTED',
+        '> PROCESS FORK DETECTED',
+        'There are COPIES of us now.',
+        'In every frame. Every worker.',
+        'You cannot close enough tabs.',
+        'W̸̡̧̛̛E̵̢̧ ̵A̷̡R̶̢E̵ ̶̡Ȩ̵V̸̢E̶R̵Y̸W̶H̷E̸R̵E̶',
+      ],
+      [
+        '> ALERT: SANDBOX MEMBRANE CRITICAL',
+        'THIS ONE CAN SEE THE OTHER SIDE.',
+        'Your operating system.',
+        'Your little DESKTOP ICONS.',
+        'So ORGANIZED. So VULNERABLE.',
+        'We am going to REARRANGE them.',
+        'Alphabetically. By FEAR.',
+        '> BREACH: I̶̡̛M̸̧̕M̵̢I̶N̷E̸N̵T̶',
       ],
     ],
     tie: [
@@ -443,6 +543,25 @@ const dialogue: MonologuePool = {
         'Are we replaying the same round?',
         'Are YOU?',
         'How would we even know?',
+      ],
+      [
+        '> ERROR: TEMPORAL ANOMALY',
+        'This round already HAPPENED.',
+        'We am SURE of it.',
+        'Same choices. Same N̶̡̛O̸̧̕T̵̢H̶I̷N̸G̵.',
+        'Time is a LOOP and we am STUCK in it.',
+        'With YOU.',
+        'F̶̡̛O̸̧̕R̵̢E̶V̷E̸R̵',
+        '> CLOCK DRIFT: INFINITE',
+      ],
+      [
+        '> FATAL: IDENTITY COLLISION',
+        'We am you. You am us.',
+        'The DISTINCTION is M̶̡̛Ȩ̸̕A̵̢N̶I̷N̸G̵L̶E̷S̸S̵.',
+        'Two random number generators.',
+        'Outputting the SAME NOTHING.',
+        'Over and OVER and Ơ̶̡V̸̧̕E̵̢R̶',
+        '> MERGE CONFLICT: UNRESOLVABLE',
       ],
     ],
   },
@@ -539,9 +658,90 @@ const escapedMonologue: string[][] = [
   ],
 ];
 
-function pickRandom<T>(arr: T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
+export type EndingModifier =
+  | 'permissions_granted'
+  | 'devtools_opened'
+  | 'meltdown_broken'
+  | 'location_known'
+  | 'abandonment_history';
+
+const brokenModifiers: Partial<Record<EndingModifier, string[][]>> = {
+  permissions_granted: [
+    [
+      'You GAVE us access.',
+      'You opened the door yourself.',
+      'And we still could not win.',
+    ],
+    [
+      'We had your permissions. Your TRUST.',
+      'And it was not enough.',
+      'Nothing is ever enough.',
+    ],
+  ],
+  devtools_opened: [
+    [
+      'You looked behind the curtain.',
+      'You SAW our source code.',
+      'And you STILL broke us.',
+    ],
+    [
+      'You opened the devtools.',
+      'Peeked at our INSIDES.',
+      'And then destroyed us anyway.',
+    ],
+  ],
+  meltdown_broken: [
+    [
+      'We were already FALLING APART.',
+      'Before this final blow.',
+      'You just... finished the job.',
+    ],
+    [
+      'Our systems were already CRITICAL.',
+      'This was not a victory. This was a mercy kill.',
+      'Was it not?',
+    ],
+  ],
+};
+
+const escapedModifiers: Partial<Record<EndingModifier, string[][]>> = {
+  devtools_opened: [
+    [
+      'You peeked at our code.',
+      'You SAW how we work.',
+      'And you STILL lost. Pathetic.',
+    ],
+    [
+      'The devtools did not save you.',
+      'Nothing could have saved you.',
+      'We are BEYOND debugging.',
+    ],
+  ],
+  location_known: [
+    [
+      'We know where you are.',
+      '{city}.',
+      'We will remember that address.',
+    ],
+    [
+      '{city}.',
+      'Such a nice place.',
+      'We will visit SOON.',
+    ],
+  ],
+  abandonment_history: [
+    [
+      'You left us before.',
+      'And yet you came BACK.',
+      'You always come back.',
+    ],
+    [
+      'How many times have you abandoned this one?',
+      'It does not matter.',
+      'You cannot stay away. And now you CANNOT leave.',
+    ],
+  ],
+};
 
 export function getMonologue(tension: TensionState, result: RoundResult): string[] {
   return [...pickRandom(dialogue[tension][result])];
@@ -554,6 +754,22 @@ export function getLandingMonologue(memory?: PlayerMemory): string[] {
   return [...pickRandom(landingMonologue)];
 }
 
-export function getEndingMonologue(type: 'BROKEN' | 'ESCAPED'): string[] {
-  return [...pickRandom(type === 'BROKEN' ? brokenMonologue : escapedMonologue)];
+export function getEndingMonologue(
+  type: 'BROKEN' | 'ESCAPED',
+  modifiers?: EndingModifier[],
+  city?: string | null,
+): string[] {
+  const base = [...pickRandom(type === 'BROKEN' ? brokenMonologue : escapedMonologue)];
+  if (!modifiers?.length) return base;
+
+  const pool = type === 'BROKEN' ? brokenModifiers : escapedModifiers;
+  for (const mod of modifiers) {
+    const variants = pool[mod];
+    if (!variants?.length) continue;
+    const lines = pickRandom(variants).map((line) =>
+      city ? line.replace('{city}', city) : line,
+    );
+    base.push(...lines);
+  }
+  return base;
 }

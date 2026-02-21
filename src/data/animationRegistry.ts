@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck — animation files are JS template literals
+import { pickRandom } from '@utils/random'
 import tiltingAnimation from '@data/animations/tilting'
 import backandforthAnimation from '@data/animations/backandforth'
 import sidetosideAnimation from '@data/animations/sidetoside'
@@ -95,10 +96,6 @@ const graspAnimations = ['grasp1', 'grasp2', 'grasp3', 'grasp4', 'grasp5', 'gras
 
 // Burst animations for victory moments
 const burstAnimations = ['burst1', 'burst2', 'burst3']
-
-function pickRandom<T>(arr: T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)]
-}
 
 export function getAnimationForTension(tension: TensionState): string[] {
   const name = pickRandom(tensionAnimations[tension])

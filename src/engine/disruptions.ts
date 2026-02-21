@@ -1,4 +1,5 @@
 import type { TensionState } from '@engine/types';
+import { pickRandom } from '@utils/random';
 
 export type DisruptionType = 'confirm' | 'delay' | 'jitter' | 'relabel';
 
@@ -57,10 +58,6 @@ const FAKE_LABELS: string[] = [
   '[ ████ ]',
   '[ ░░░░ ]',
 ];
-
-function pickRandom<T>(arr: T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
 
 export function rollDisruption(tension: TensionState): Disruption | null {
   const chance = DISRUPTION_CHANCE[tension];
