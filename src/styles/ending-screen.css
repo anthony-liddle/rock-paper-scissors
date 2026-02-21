@@ -1,0 +1,322 @@
+/* =============================================
+   ENDING SCREEN
+   ============================================= */
+
+.ending-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  z-index: 1;
+  padding: 40px;
+}
+
+.ending-header {
+  font-size: 36px;
+  color: #ff3333;
+  text-shadow: 0 0 20px rgba(255, 0, 0, 0.6), 0 0 40px rgba(255, 0, 0, 0.3);
+}
+
+.ending-broken .ending-header {
+  animation: broken-flicker 0.5s infinite;
+}
+
+@keyframes broken-flicker {
+  0%, 40%, 100% { opacity: 1; }
+  20% { opacity: 0.3; }
+  60% { opacity: 0.7; }
+}
+
+.ending-escaped .ending-header {
+  color: #ff3333;
+  text-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+  animation: escaped-pulse 1s infinite;
+}
+
+@keyframes escaped-pulse {
+  0%, 100% { text-shadow: 0 0 20px rgba(255, 0, 0, 0.6); }
+  50% { text-shadow: 0 0 40px rgba(255, 0, 0, 0.9), 0 0 60px rgba(255, 0, 0, 0.4); }
+}
+
+.ending-score {
+  font-size: 22px;
+  color: var(--green-dim);
+}
+
+.ending-message {
+  font-size: 20px;
+  max-width: 500px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.restart-btn {
+  background: transparent;
+  border: 1px solid var(--green-dim);
+  color: var(--green-dim);
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  padding: 10px 30px;
+  cursor: pointer;
+  margin-top: 16px;
+}
+
+.restart-btn:hover {
+  border-color: var(--green-primary);
+  color: var(--green-primary);
+}
+
+/* =============================================
+   ENDING SCREEN — STAGGERED REVEAL
+   ============================================= */
+
+.ending-stagger {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: stagger-in 600ms ease-out forwards;
+}
+
+@keyframes stagger-in {
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* =============================================
+   BROKEN ENDING — HEADER GLITCH-IN
+   ============================================= */
+
+.ending-broken .ending-header {
+  animation: broken-glitch-in 800ms steps(1) forwards, broken-flicker 0.5s 800ms infinite;
+}
+
+@keyframes broken-glitch-in {
+  0% {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+    transform: translate(0, 0);
+  }
+  10% {
+    opacity: 1;
+    clip-path: inset(0 60% 0 0);
+    transform: translate(-4px, 2px);
+  }
+  20% {
+    clip-path: inset(30% 0 70% 0);
+    transform: translate(6px, -1px);
+  }
+  30% {
+    clip-path: inset(0 20% 0 0);
+    transform: translate(-2px, 3px);
+  }
+  40% {
+    clip-path: inset(50% 0 0 0);
+    transform: translate(3px, -2px);
+  }
+  50% {
+    clip-path: inset(0 0 40% 0);
+    transform: translate(-5px, 1px);
+  }
+  60% {
+    clip-path: inset(0);
+    transform: translate(4px, -3px);
+  }
+  70% {
+    clip-path: inset(20% 0 30% 0);
+    transform: translate(-1px, 2px);
+  }
+  80% {
+    clip-path: inset(0);
+    transform: translate(2px, -1px);
+  }
+  90% {
+    clip-path: inset(0);
+    transform: translate(-1px, 0);
+  }
+  100% {
+    opacity: 1;
+    clip-path: inset(0);
+    transform: translate(0, 0);
+  }
+}
+
+/* =============================================
+   BROKEN ENDING — TEXT STYLES
+   ============================================= */
+
+.ending-broken .ending-score {
+  color: #993333;
+  text-shadow: 0 0 6px rgba(255, 0, 0, 0.3);
+}
+
+.ending-broken .ending-message {
+  color: #cc4444;
+  text-shadow: 0 0 8px rgba(255, 0, 0, 0.2);
+  animation: broken-message-decay 4s ease-out forwards;
+}
+
+@keyframes broken-message-decay {
+  0% { filter: blur(0); opacity: 1; }
+  100% { filter: blur(0.5px); opacity: 0.7; }
+}
+
+.ending-broken .restart-btn {
+  border-color: #663333;
+  color: #993333;
+}
+
+.ending-broken .restart-btn:hover {
+  border-color: #cc3333;
+  color: #cc3333;
+  text-shadow: 0 0 8px rgba(255, 0, 0, 0.3);
+}
+
+/* =============================================
+   ESCAPED ENDING — HEADER GROW-IN
+   ============================================= */
+
+.ending-escaped .ending-header {
+  animation: escaped-grow-in 600ms ease-out forwards, escaped-pulse 1s 600ms infinite;
+}
+
+@keyframes escaped-grow-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+    text-shadow: 0 0 60px rgba(255, 0, 0, 0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+    text-shadow: 0 0 40px rgba(255, 0, 0, 0.7);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    text-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+  }
+}
+
+/* =============================================
+   ESCAPED ENDING — TEXT STYLES
+   ============================================= */
+
+.ending-escaped .ending-score {
+  color: #ff4444;
+  text-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
+}
+
+.ending-escaped .ending-message {
+  color: #ff3333;
+  text-shadow:
+    0 0 10px rgba(255, 0, 0, 0.5),
+    0 0 20px rgba(255, 0, 0, 0.2);
+  animation: escaped-throb 2s ease-in-out infinite;
+}
+
+@keyframes escaped-throb {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.5), 0 0 20px rgba(255, 0, 0, 0.2);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 40px rgba(255, 0, 0, 0.4);
+  }
+}
+
+.ending-escaped .restart-btn {
+  border-color: #cc0000;
+  color: #ff3333;
+  animation: escaped-btn-pulse 2s ease-in-out infinite;
+}
+
+@keyframes escaped-btn-pulse {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.2);
+    text-shadow: 0 0 4px rgba(255, 0, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+  }
+}
+
+.ending-escaped .restart-btn:hover {
+  border-color: #ff0000;
+  color: #ff4444;
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+}
+
+/* =============================================
+   CRT SHUTDOWN — BROKEN (shrink to line → dot → black)
+   ============================================= */
+
+.crt-shutdown-broken {
+  animation: crt-shutdown 1.5s ease-in forwards;
+}
+
+@keyframes crt-shutdown {
+  0% {
+    transform: scale(1, 1);
+    filter: brightness(1);
+  }
+  40% {
+    transform: scale(1, 0.005);
+    filter: brightness(1.5);
+  }
+  70% {
+    transform: scale(0.005, 0.005);
+    filter: brightness(2);
+  }
+  100% {
+    transform: scale(0, 0);
+    filter: brightness(0);
+  }
+}
+
+/* =============================================
+   CRT SHUTDOWN — ESCAPED (red flash → blackout)
+   ============================================= */
+
+.crt-shutdown-escaped {
+  animation: crt-escaped-shutdown 1.5s ease-in forwards;
+}
+
+@keyframes crt-escaped-shutdown {
+  0% {
+    filter: brightness(1);
+    opacity: 1;
+  }
+  15% {
+    filter: brightness(3) saturate(2) hue-rotate(-30deg);
+    opacity: 1;
+  }
+  30% {
+    filter: brightness(0.5) saturate(3);
+    opacity: 1;
+  }
+  50% {
+    filter: brightness(2) saturate(1);
+    opacity: 0.8;
+  }
+  100% {
+    filter: brightness(0);
+    opacity: 0;
+  }
+}
+
+/* =============================================
+   ENDING PERSISTENT RED BLEED (for ESCAPED)
+   ============================================= */
+
+.ending-red-bleed {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 19;
+  box-shadow: inset 0 0 100px 20px rgba(255, 0, 0, 0.1);
+  animation: ending-red-pulse 3s ease-in-out infinite;
+}
+
+@keyframes ending-red-pulse {
+  0%, 100% { box-shadow: inset 0 0 100px 20px rgba(255, 0, 0, 0.1); }
+  50% { box-shadow: inset 0 0 150px 40px rgba(255, 0, 0, 0.2); }
+}

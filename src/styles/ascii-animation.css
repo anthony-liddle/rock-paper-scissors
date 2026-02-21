@@ -1,0 +1,14 @@
+/* =============================================
+   ASCII ANIMATION
+   ============================================= */
+
+.ascii-animation {
+  font-size: 12px;
+  line-height: 1.15;
+  letter-spacing: 0.25em;
+  color: var(--green-primary);
+  text-align: center;
+  white-space: pre;
+  font-family: 'VT323', monospace;
+  transition: text-shadow 0.3s;
+}

@@ -1,0 +1,95 @@
+/* =============================================
+   DIALOGUE BOX
+   ============================================= */
+
+.dialogue-box {
+  font-size: 36px;
+  padding: 12px 20px;
+  border: 1px solid var(--green-dim);
+  min-height: 50px;
+  max-width: 600px;
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  text-shadow:
+    0 0 4px var(--bg-dark),
+    0 0 8px var(--bg-dark),
+    0 0 12px var(--bg-dark),
+    0 0 8px var(--green-primary);
+}
+
+.dialogue-content {
+  flex: 1;
+}
+
+.dialogue-prompt {
+  color: var(--green-bright);
+}
+
+.dialogue-text {
+  color: var(--green-primary);
+}
+
+/* System output lines (> CORE DUMPED, > REQUESTING, etc.) */
+.dialogue-box.system-line {
+  border-color: var(--amber-dim);
+  text-shadow:
+    0 0 4px var(--bg-dark),
+    0 0 8px var(--bg-dark),
+    0 0 12px var(--bg-dark),
+    0 0 8px var(--amber-primary);
+}
+
+.dialogue-box.system-line .dialogue-prompt {
+  color: var(--amber-bright);
+}
+
+.dialogue-box.system-line .dialogue-text {
+  color: var(--amber-primary);
+}
+
+.dialogue-box.system-line .cursor {
+  color: var(--amber-primary);
+}
+
+.dialogue-box.system-line .next-hint {
+  color: var(--amber-dim);
+}
+
+.dialogue-reserve {
+  visibility: hidden;
+}
+
+.cursor {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.next-hint {
+  color: var(--green-dim);
+  font-size: 24px;
+  flex-shrink: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.next-hint-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 200ms ease-out;
+  animation: next-pulse 1.5s ease-in-out 200ms infinite;
+}
+
+@keyframes next-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}

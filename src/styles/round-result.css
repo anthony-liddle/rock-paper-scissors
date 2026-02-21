@@ -1,0 +1,27 @@
+/* =============================================
+   ROUND RESULT
+   ============================================= */
+
+.round-result {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.result-label {
+  font-size: 48px;
+  color: var(--green-bright);
+  text-shadow:
+    0 0 4px var(--bg-dark),
+    0 0 8px var(--bg-dark),
+    0 0 12px var(--bg-dark),
+    0 0 16px var(--bg-dark),
+    0 0 24px rgba(0, 0, 0, 0.8),
+    0 0 14px var(--green-primary);
+  text-align: center;
+  letter-spacing: 6px;
+}

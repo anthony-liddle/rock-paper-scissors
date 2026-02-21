@@ -1,0 +1,32 @@
+/* =============================================
+   SCOREBOARD
+   ============================================= */
+
+.scoreboard {
+  font-size: 28px;
+  letter-spacing: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 24px;
+  border: 1px solid var(--green-dim);
+  background: rgba(0, 0, 0, 0.4);
+  text-shadow:
+    0 0 4px var(--bg-dark),
+    0 0 8px var(--bg-dark),
+    0 0 12px var(--bg-dark);
+}
+
+.score-label {
+  font-size: 20px;
+  color: var(--green-dim);
+}
+
+.score-value {
+  color: var(--green-bright);
+}
+
+.score-separator {
+  color: var(--green-dim);
+}
