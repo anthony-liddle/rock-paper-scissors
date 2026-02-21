@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useLayoutEffect, useCallback, useRef } from 'react';
 import type { TensionState } from '@engine/types';
 
 const SPEED: Record<TensionState, number> = {
@@ -15,11 +15,17 @@ export function useTypewriter(text: string, tension: TensionState) {
   const intervalRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
   const indexRef = useRef(0);
 
-  useEffect(() => {
-    // Reset on input change
+  // Reset before paint when text changes — prevents one-frame stale text flash
+  useLayoutEffect(() => {
+    clearInterval(intervalRef.current);
     indexRef.current = 0;
     setDisplayed('');
     setDone(!text);
+  }, [text]);
+
+  useEffect(() => {
+    // Start typing interval
+    indexRef.current = 0;
 
     if (!text) return;
 

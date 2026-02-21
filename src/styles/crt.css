@@ -350,7 +350,8 @@ body {
 .choice-buttons {
   display: flex;
   gap: 20px;
-  margin-top: 8px;
+  padding-top: 14px;
+  padding-bottom: 8px;
 }
 
 .choice-btn {
@@ -407,7 +408,7 @@ body {
   color: var(--green-dim);
   font-family: 'VT323', monospace;
   font-size: 18px;
-  padding: 4px 8px;
+  padding: 2px 8px;
   pointer-events: none;
   z-index: 15;
   text-shadow:
@@ -551,7 +552,7 @@ body {
 
 .disruption-delay {
   text-align: center;
-  padding: 16px;
+  padding: 8px;
 }
 
 .disruption-processing {
@@ -698,8 +699,15 @@ body {
   font-size: 28px;
   padding: 16px 48px;
   cursor: pointer;
-  transition: all 0.2s;
   text-shadow: 0 0 8px var(--green-primary);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease, background 0.2s, box-shadow 0.2s;
+}
+
+.start-btn-visible {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .start-btn:hover {

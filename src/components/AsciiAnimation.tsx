@@ -8,14 +8,16 @@ import {
   animations,
 } from '@data/animationRegistry';
 import type { Choice } from '@engine/types';
+import { corruptFrame } from '@engine/frameCorruption';
 
 const CHOICE_FRAME_RATE = 55;
 const CHOICE_HOLD_MS = 1200;
 const ENDING_FRAME_RATE = 65;
 
 export function AsciiAnimation() {
-  const { tensionState, phase, roundPhase, pendingRobotChoice, endingType } = useGameState();
+  const { tensionState, tensionScore, phase, roundPhase, pendingRobotChoice, endingType } = useGameState();
   const containerRef = useRef<HTMLPreElement>(null);
+  const tensionScoreRef = useRef(tensionScore);
   const frameRef = useRef(0);
   const directionRef = useRef(1);
   const rafRef = useRef<number>(0);
@@ -30,6 +32,9 @@ export function AsciiAnimation() {
 
   // Ending animation frames
   const endingFramesRef = useRef<string[]>([]);
+
+  // Keep tensionScore ref in sync without resetting animation loop
+  useEffect(() => { tensionScoreRef.current = tensionScore; }, [tensionScore]);
 
   // Pick new idle animation when tension changes
   useEffect(() => {
@@ -131,7 +136,10 @@ export function AsciiAnimation() {
           }
         }
 
-        containerRef.current!.textContent = idleFrames[frameRef.current];
+        const rawFrame = idleFrames[frameRef.current];
+        containerRef.current!.textContent = tensionState === 'MELTDOWN'
+          ? corruptFrame(rawFrame, idleFrames, tensionScoreRef.current / 100)
+          : rawFrame;
       }
     };
 
