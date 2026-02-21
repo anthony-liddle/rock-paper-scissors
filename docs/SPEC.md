@@ -425,7 +425,39 @@ skipEndingLock
 
 ---
 
-# 18. Open Questions
+# 18. Analytics & Tracking
+
+## 18.1 Provider
+
+**PostHog** (recommended) — open-source product analytics with a generous free tier (1M events/month). Lightweight JS SDK, no backend required. Works on GitHub Pages as a static site.
+
+## 18.2 Events to Track
+
+| Event | Trigger | Properties |
+|---|---|---|
+| `game_started` | Player clicks "play" from landing | — |
+| `round_played` | Round resolves | `player_choice`, `robot_choice`, `outcome` (win/loss/draw), `round_number`, `tension_state` |
+| `permission_requested` | Permission prompt shown | `permission_type` (real vs simulated), `permission_name` |
+| `permission_granted` | Player grants a permission | `permission_type`, `permission_name` |
+| `permission_denied` | Player denies a permission | `permission_type`, `permission_name` |
+| `tension_changed` | Tension state transitions | `from_state`, `to_state`, `round_number` |
+| `ending_reached` | Game reaches an ending | `ending_type` (BROKEN/ESCAPED), `total_rounds`, `final_tension`, `duration_seconds` |
+| `return_visit` | Player revisits after a previous session | `previous_ending_type`, `days_since_last` |
+
+## 18.3 Privacy Considerations
+
+- No PII collection — PostHog anonymous mode only
+- No cookies — use PostHog's cookieless tracking via `persistence: 'memory'`
+- Respect Do Not Track headers
+- No session replay (unnecessary for a game, and privacy-invasive)
+
+## 18.4 Implementation Notes
+
+- Initialize PostHog in `main.tsx` with the project API key
+- Fire events from the Zustand store subscribers or directly from game logic
+- Keep the analytics layer thin — a single `track(event, properties)` wrapper to avoid vendor lock-in
+
+# 19. Open Questions
 
 1. Should tension escalation differ if robot is losing vs winning?
 2. Do we allow hidden secret endings?

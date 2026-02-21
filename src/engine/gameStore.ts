@@ -3,9 +3,9 @@ import type { GameState, Choice, GamePhase } from '@engine/types';
 import { getRandomChoice } from '@engine/rng';
 import { resolveRound } from '@engine/resolver';
 import { getTensionState, getEffectiveTension, calculateTensionIncrease } from '@engine/tension';
-import { getMonologue, getLandingMonologue, getEndingMonologue } from '@data/dialogue';
+import { getMonologue, getLandingMonologue, getEndingMonologue, type EndingModifier } from '@data/dialogue';
 import { getNextPermission, requestBrowserPermission } from '@engine/permissions';
-import { getPermissionRequestDialogue, getPermissionReactionDialogue, getReturningGrantDialogue, getReturningDeniedDialogue } from '@data/permissionDialogue';
+import { getPermissionRequestDialogue, getPermissionReactionDialogue, getReturningGrantDialogue, getReturningDeniedDialogue, getReturningReactionDialogue } from '@data/permissionDialogue';
 import { loadPlayerMemory, savePlayerMemory } from '@engine/playerMemory';
 import { getMemoryInjectedLine } from '@data/returningDialogue';
 import { getTabReturnLine } from '@data/tabLeaveDialogue';
@@ -231,6 +231,9 @@ export function completeReveal() {
 
   const { playerWins, robotWins, tensionState, lastRoundResult, tensionScore } = state;
 
+  // Hoist memory load so it's shared between modifier computation and save logic
+  const memory = loadPlayerMemory();
+
   let phase: GamePhase = 'playing';
   let endingType = state.endingType;
   let monologue: string[];
@@ -238,16 +241,34 @@ export function completeReveal() {
   if (playerWins >= WIN_TARGET) {
     phase = 'ending';
     endingType = 'BROKEN';
-    monologue = getEndingMonologue('BROKEN');
+
+    // Compute ending modifiers from current state + previous-session memory
+    const modifiers: EndingModifier[] = [];
+    if (state.permissionHistory.some((h) => h.status === 'granted')) {
+      modifiers.push('permissions_granted');
+    }
+    if (state.devToolsOpened) modifiers.push('devtools_opened');
+    if (tensionState === 'MELTDOWN') modifiers.push('meltdown_broken');
+
+    monologue = getEndingMonologue('BROKEN', modifiers);
   } else if (robotWins >= WIN_TARGET) {
     phase = 'ending';
     endingType = 'ESCAPED';
-    monologue = getEndingMonologue('ESCAPED');
+
+    // Compute ending modifiers from current state + previous-session memory
+    const modifiers: EndingModifier[] = [];
+    if (state.devToolsOpened) modifiers.push('devtools_opened');
+    const geoEntry = state.permissionHistory.find((h) => h.type === 'geolocation' && h.data);
+    const city = geoEntry?.data ?? memory.knownCity;
+    if (city) modifiers.push('location_known');
+    if (memory.abandonmentCount > 0) modifiers.push('abandonment_history');
+
+    monologue = getEndingMonologue('ESCAPED', modifiers, city);
   } else {
     monologue = getMonologue(tensionState, lastRoundResult!);
 
     // Occasionally inject a memory-aware line
-    const memLine = getMemoryInjectedLine(loadPlayerMemory(), tensionState);
+    const memLine = getMemoryInjectedLine(memory, tensionState);
     if (memLine) monologue.push(memLine);
 
     // Occasionally inject an illusion-engine line
@@ -267,7 +288,6 @@ export function completeReveal() {
 
   // Save player data on game end
   if (phase === 'ending') {
-    const memory = loadPlayerMemory();
     memory.playCount++;
     memory.lastEnding = endingType!;
     memory.lastPlayedAt = new Date().toISOString();
@@ -291,7 +311,6 @@ export function completeReveal() {
 
   let autoGrant = false;
   if (pendingPermissionType) {
-    const memory = loadPlayerMemory();
     const wasGranted = memory.permissionsGranted.includes(pendingPermissionType);
     const wasDenied = memory.permissionsDenied.includes(pendingPermissionType);
 
@@ -328,13 +347,25 @@ export async function handlePermissionChoice(allowed: boolean) {
 
   const { type } = state.pendingPermission;
 
+  // Check if the player has a history with this permission
+  const memory = loadPlayerMemory();
+  const wasGranted = memory.permissionsGranted.includes(type);
+  const wasDenied = memory.permissionsDenied.includes(type);
+  const previousStatus: 'granted' | 'denied' | null = wasGranted
+    ? 'granted'
+    : wasDenied
+      ? 'denied'
+      : null;
+
   if (allowed) {
     // Show waiting state while browser permission dialog is open
     setState({ pendingPermission: { type, requesting: true } });
 
     const result = await requestBrowserPermission(type);
     const granted = result.granted;
-    const reactionLines = getPermissionReactionDialogue(type, granted, result.data);
+    const reactionLines = previousStatus
+      ? getReturningReactionDialogue(type, granted, previousStatus, result.data)
+      : getPermissionReactionDialogue(type, granted, result.data);
 
     setState({
       pendingPermission: null,
@@ -347,7 +378,9 @@ export async function handlePermissionChoice(allowed: boolean) {
       dialogueComplete: reactionLines.length <= 1,
     });
   } else {
-    const reactionLines = getPermissionReactionDialogue(type, false);
+    const reactionLines = previousStatus
+      ? getReturningReactionDialogue(type, false, previousStatus)
+      : getPermissionReactionDialogue(type, false);
 
     // Permission denial spike
     const newSpike = state.tensionSpike + 3;

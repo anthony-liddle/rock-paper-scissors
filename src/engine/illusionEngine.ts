@@ -79,8 +79,6 @@ class IllusionEngine {
   async start(): Promise<void> {
     this.stopped = false;
 
-    const now = new Date();
-    const hour = now.getHours();
     const ua = navigator.userAgent;
     const { name: browser, version: browserVersion } = detectBrowser(ua);
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -112,10 +110,10 @@ class IllusionEngine {
     if (this.stopped) return; // In case stop() was called during async work
 
     this.snapshot = {
-      time: now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
-      hour,
-      dayOfWeek: now.toLocaleDateString([], { weekday: 'long' }),
-      timeOfDay: getTimeOfDay(hour),
+      time: '',
+      hour: 0,
+      dayOfWeek: '',
+      timeOfDay: '',
       browser,
       browserVersion,
       platform: navigator.platform,
@@ -136,10 +134,8 @@ class IllusionEngine {
     // Snapshot persists for reuse on restart
   }
 
-  /**
-   * Probability-gated illusion line for the in-game dialogue box.
-   * Returns null at CALM, if snapshot isn't ready, or if the random gate fails.
-   */
+  // Probability-gated illusion line for the in-game dialogue box.
+  // Returns null at CALM, if snapshot isn't ready, or if the random gate fails.
   getIllusionLine(tensionState: TensionState): string | null {
     if (!this.snapshot) return null;
     if (tensionState === 'CALM') return null;
@@ -147,17 +143,28 @@ class IllusionEngine {
     const prob = DIALOGUE_PROBABILITY[tensionState];
     if (Math.random() > prob) return null;
 
-    return getIllusionDialogueLine(tensionState, this.snapshot);
+    return getIllusionDialogueLine(tensionState, this.freshSnapshot());
   }
 
-  /**
-   * Console message for DevTools output. No probability gate — caller manages frequency.
-   */
+  // Console message for DevTools output. No probability gate — caller manages frequency.
   getIllusionConsoleMessage(tensionState: TensionState): ConsoleMessage | null {
     if (!this.snapshot) return null;
     if (tensionState === 'CALM') return null;
 
-    return getIllusionConsoleMsg(tensionState, this.snapshot);
+    return getIllusionConsoleMsg(tensionState, this.freshSnapshot());
+  }
+
+  // Return snapshot with time fields refreshed to current moment.
+  private freshSnapshot(): IllusionTemplateVars {
+    const now = new Date();
+    const hour = now.getHours();
+    return {
+      ...this.snapshot!,
+      time: now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
+      hour,
+      dayOfWeek: now.toLocaleDateString([], { weekday: 'long' }),
+      timeOfDay: getTimeOfDay(hour),
+    };
   }
 }
 

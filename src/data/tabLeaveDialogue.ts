@@ -1,9 +1,6 @@
 import type { TensionState } from '@engine/types';
 import type { ConsoleMessage } from '@data/consoleDialogue';
-
-function pickRandom<T>(arr: T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
+import { pickRandom } from '@utils/random';
 
 // --- In-game dialogue when player returns from tab leave ---
 

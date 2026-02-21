@@ -1,14 +1,11 @@
 import type { TensionState, RoundResult, EndingType } from '@engine/types';
+import { pickRandom } from '@utils/random';
 
 export type LogLevel = 'info' | 'log' | 'warn' | 'error';
 
 export interface ConsoleMessage {
   level: LogLevel;
   text: string;
-}
-
-function pickRandom<T>(arr: T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)];
 }
 
 // --- Round result messages ---
