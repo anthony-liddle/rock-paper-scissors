@@ -1,12 +1,8 @@
-import { useEffect } from 'react';
 import { useGameState } from '@engine/gameStore';
-import { useVisualEffects } from '@engine/useVisualEffects';
-import { useBrowserChrome } from '@engine/useBrowserChrome';
-import { useSettings } from '@engine/settings';
-import { consoleNarrator } from '@engine/consoleNarrator';
-import { devToolsDetector } from '@engine/devToolsDetector';
-import { tabLeaveDetector } from '@engine/tabLeaveDetector';
-import { illusionEngine } from '@engine/illusionEngine';
+import { useGameSystems } from '@hooks/useGameSystems';
+import { useBrowserChrome } from '@hooks/useBrowserChrome';
+import { useSettings } from '@hooks/useSettings';
+import { EffectsLayer } from '@components/EffectsLayer';
 import { LandingScreen } from '@components/LandingScreen';
 import { AsciiAnimation } from '@components/AsciiAnimation';
 import { ScoreBoard } from '@components/ScoreBoard';
@@ -20,22 +16,9 @@ import '@styles/index.css';
 
 function App() {
   const { phase, tensionState, endingType, isRebooting } = useGameState();
-  const { flashActive, tearStyle, colorBleedActive, endingRedBleed } = useVisualEffects();
   const { reducedMotion } = useSettings();
   useBrowserChrome();
-
-  useEffect(() => {
-    consoleNarrator.start();
-    devToolsDetector.start();
-    tabLeaveDetector.start();
-    illusionEngine.start();
-    return () => {
-      consoleNarrator.stop();
-      devToolsDetector.stop();
-      tabLeaveDetector.stop();
-      illusionEngine.stop();
-    };
-  }, []);
+  useGameSystems();
 
   const shutdownClass = isRebooting
     ? endingType === 'BROKEN'
@@ -45,10 +28,7 @@ function App() {
 
   return (
     <div className={`crt-screen tension-${tensionState.toLowerCase()} ${shutdownClass}${reducedMotion ? ' reduced-motion' : ''}`}>
-      {flashActive && <div className="screen-flash-overlay" />}
-      {tearStyle && <div className="screen-tear-overlay" style={tearStyle} />}
-      {colorBleedActive && <div className="screen-bleed-overlay" />}
-      {endingRedBleed && <div className="ending-red-bleed" />}
+      <EffectsLayer />
 
       <SettingsBar />
 
