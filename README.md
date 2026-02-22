@@ -51,9 +51,12 @@ rock-paper-scissors/
 │   ├── data/           # Dialogue, animations, and soundscape config
 │   │   └── animations/ # ASCII art animation sequences
 │   ├── engine/         # Game engine (store, RNG, tension, illusions, etc.)
+│   ├── hooks/          # React hooks
+│   ├── pages/          # Standalone pages
+│   │   └── dev/        # Developer tools (sound, animation, storage)
 │   ├── styles/         # CRT and visual effect styles
 │   ├── App.tsx         # Root application component
-│   └── main.tsx        # Entry point
+│   └── main.tsx        # Entry point and router
 ├── public/             # Static assets
 ├── docs/               # Game design documentation
 └── index.html          # HTML entry point
