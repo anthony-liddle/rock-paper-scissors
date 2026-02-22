@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import App from './App'
 import { SoundDevPage } from '@components/SoundDevPage'
 import { ResetDevPage } from '@components/ResetDevPage'
+import { AnimationDevPage } from '@components/AnimationDevPage'
 
 // The robot knows when you're looking behind the curtain
 console.log(
@@ -39,6 +40,8 @@ function DevRouter() {
     case 'reset':
     case 'storage':
       return <ResetDevPage />;
+    case 'animation':
+      return <AnimationDevPage />;
     default: return <App />;
   }
 }

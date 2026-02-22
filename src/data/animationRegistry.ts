@@ -76,7 +76,7 @@ export const animations: Record<string, string[]> = {
 }
 
 // Animations mapped to tension states — pick randomly from pool
-const tensionAnimations: Record<TensionState, string[]> = {
+export const tensionAnimations: Record<TensionState, string[]> = {
   CALM: ['wobble', 'jiggle', 'tilting', 'backandforth', 'sidetoside', 'forthandback', 'wibblewobble'],
   UNEASY: ['shudder', 'shudderbackandforth', 'shudderleftlean', 'shudderrightlean'],
   IRRITATED: ['flailleftlean', 'flailrightlean', 'shake'],
