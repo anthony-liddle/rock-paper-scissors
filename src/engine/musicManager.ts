@@ -4,7 +4,7 @@ import type { TensionState } from '@engine/types';
 import soundscapeData from '@data/soundscape.json';
 
 // BPM per tension level
-const TENSION_BPM: Record<TensionState, number> = {
+export const TENSION_BPM: Record<TensionState, number> = {
   CALM: 60,
   UNEASY: 78,
   IRRITATED: 100,
@@ -14,12 +14,12 @@ const TENSION_BPM: Record<TensionState, number> = {
 
 // Which tracks are audible at each tension level
 // Layer names derived from JSON track IDs by stripping "track-" prefix
-const TENSION_LAYERS: Record<TensionState, string[]> = {
-  CALM: ['pad'],
-  UNEASY: ['pad', 'bass'],
-  IRRITATED: ['pad', 'bass', 'keys', 'percussion'],
-  UNSTABLE: ['pad', 'bass', 'keys', 'percussion', 'lead'],
-  MELTDOWN: ['pad', 'bass', 'keys', 'percussion', 'lead', 'glitch', 'glitch-random'],
+export const TENSION_LAYERS: Record<TensionState, string[]> = {
+  CALM: ['keys', 'percussion'],
+  UNEASY: ['keys', 'percussion', 'bass'],
+  IRRITATED: ['keys', 'percussion', 'bass', 'pad'],
+  UNSTABLE: ['keys', 'percussion', 'bass', 'pad', 'lead'],
+  MELTDOWN: ['keys', 'percussion', 'bass', 'pad', 'lead', 'glitch', 'glitch-random'],
 };
 
 const LOOP_LENGTH = 16; // beats
@@ -203,7 +203,8 @@ class GameMusicManager {
         this.engine.previewNote(72, 100, 'keys');
         break;
       case 'lose':
-        this.engine.previewNote(40, 90, 'bass', { distortion: 0.3 });
+        this.engine.previewNote(50, 127, 'bass', { distortion: 0.6, });
+        this.engine.previewNote(50, 127, 'keys', { distortion: 0.6 });
         break;
       case 'tie':
         this.engine.previewNote(60, 70, 'pluck');
@@ -257,7 +258,6 @@ class GameMusicManager {
         });
         this.engine.previewNote(36, 110, 'percussion', {
           distortion: 0.5,
-          filterCutoff: 0.2,
           attack: 0.1,
           decay: 2.0,
           sustain: 0.05,

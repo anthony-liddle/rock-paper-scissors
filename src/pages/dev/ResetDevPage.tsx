@@ -57,7 +57,7 @@ export function ResetDevPage() {
         </p>
       )}
       <p style={{ color: '#1a991a', marginTop: '32px', fontSize: '14px' }}>
-        Access this page at ?dev=reset || ?dev=storage
+        Access this page at /dev/reset or /dev/storage
       </p>
     </div>
   );

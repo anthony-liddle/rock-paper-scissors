@@ -1,9 +1,9 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App'
-import { SoundDevPage } from '@components/SoundDevPage'
-import { ResetDevPage } from '@components/ResetDevPage'
-import { AnimationDevPage } from '@components/AnimationDevPage'
+import { SoundDevPage } from '@pages/dev/SoundDevPage'
+import { ResetDevPage } from '@pages/dev/ResetDevPage'
+import { AnimationDevPage } from '@pages/dev/AnimationDevPage'
 
 // The robot knows when you're looking behind the curtain
 console.log(
@@ -31,16 +31,16 @@ console.log(
   'color: #33ff33; font-family: monospace; font-size: 14px; font-weight: bold;'
 );
 
-const devParam = new URLSearchParams(window.location.search).get('dev');
+const path = window.location.pathname;
 
-function DevRouter() {
-  switch (devParam) {
-    case 'sound':
+function Router() {
+  switch (path) {
+    case '/dev/sound':
       return <SoundDevPage />;
-    case 'reset':
-    case 'storage':
+    case '/dev/reset':
+    case '/dev/storage':
       return <ResetDevPage />;
-    case 'animation':
+    case '/dev/animation':
       return <AnimationDevPage />;
     default: return <App />;
   }
@@ -48,6 +48,6 @@ function DevRouter() {
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <DevRouter />
+    <Router />
   </StrictMode>,
 )
