@@ -9,6 +9,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@engine': path.resolve(__dirname, 'src/engine'),
+      '@hooks': path.resolve(__dirname, 'src/hooks'),
       '@components': path.resolve(__dirname, 'src/components'),
       '@data': path.resolve(__dirname, 'src/data'),
       '@styles': path.resolve(__dirname, 'src/styles'),

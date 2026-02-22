@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useGameState } from '@engine/gameStore';
-import { useSettings } from '@engine/settings';
+import { useSettings } from '@hooks/useSettings';
 import type { TensionState } from '@engine/types';
 
 interface VisualEffectState {

@@ -1,4 +1,3 @@
-import { useSyncExternalStore } from 'react';
 import { musicManager } from '@engine/musicManager';
 import { applyMusicMuteReaction } from '@engine/gameStore';
 import { consoleNarrator } from '@engine/consoleNarrator';
@@ -40,14 +39,9 @@ export function getSettings(): Settings {
   return settings;
 }
 
-export function useSettings(): Settings {
-  return useSyncExternalStore(
-    (cb) => {
-      listeners.add(cb);
-      return () => listeners.delete(cb);
-    },
-    () => settings,
-  );
+export function subscribeSettings(cb: () => void): () => void {
+  listeners.add(cb);
+  return () => { listeners.delete(cb); };
 }
 
 export function toggleMusicMute(): void {

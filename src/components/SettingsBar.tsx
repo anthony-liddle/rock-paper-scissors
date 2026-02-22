@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
-import { useSettings, toggleMusicMute, toggleReducedMotion } from '@engine/settings';
+import { useSettings } from '@hooks/useSettings';
+import { toggleMusicMute, toggleReducedMotion } from '@engine/settings';
 
 export function SettingsBar() {
   const { isMusicMuted, reducedMotion } = useSettings();

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { startGame, useGameState, advanceDialogue } from '@engine/gameStore';
-import { useTypewriter } from '@engine/useTypewriter';
+import { useTypewriter } from '@hooks/useTypewriter';
 
 export function LandingScreen() {
   const { dialogueLines, dialogueIndex, dialogueComplete, tensionState } = useGameState();

@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { useGameState, advanceDialogue } from '@engine/gameStore';
-import { useTypewriter } from '@engine/useTypewriter';
+import { useTypewriter } from '@hooks/useTypewriter';
 import { corruptDialogueText } from '@engine/textCorruption';
 
 export function DialogueBox() {

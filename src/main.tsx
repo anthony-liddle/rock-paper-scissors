@@ -34,9 +34,9 @@ const devParam = new URLSearchParams(window.location.search).get('dev');
 
 function DevRouter() {
   switch (devParam) {
-    case 'sound': 
+    case 'sound':
       return <SoundDevPage />;
-    case 'reset': 
+    case 'reset':
     case 'storage':
       return <ResetDevPage />;
     default: return <App />;
