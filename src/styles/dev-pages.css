@@ -1,0 +1,174 @@
+/* Shared styles for dev pages */
+
+.dev-page {
+  background: var(--bg-dark);
+  color: var(--green-primary);
+  font-family: 'VT323', monospace;
+  min-height: 100vh;
+}
+
+.dev-page--padded {
+  padding: 40px;
+  font-size: 18px;
+}
+
+.dev-page--flex {
+  height: 100vh;
+  min-height: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.dev-header {
+  flex-shrink: 0;
+}
+
+.dev-page h1 {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.dev-page h2 {
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+.dev-subtitle {
+  color: var(--green-dim);
+  font-size: 16px;
+  margin: 0;
+}
+
+.dev-section {
+  margin-bottom: 20px;
+}
+
+/* Buttons */
+
+.dev-btn {
+  background: transparent;
+  border: 1px solid var(--green-primary);
+  color: var(--green-primary);
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  padding: 10px 24px;
+  cursor: pointer;
+  text-shadow: none;
+}
+
+.dev-btn--active {
+  background: rgba(51, 255, 51, 0.15);
+  text-shadow: 0 0 8px var(--green-primary);
+}
+
+.dev-btn--sm {
+  font-size: 16px;
+  padding: 4px 12px;
+}
+
+.dev-btn--dim {
+  border-color: var(--green-dim);
+  color: var(--green-dim);
+}
+
+.dev-btn--danger {
+  border-color: #ff3333;
+  color: #ff3333;
+}
+
+.dev-btn--danger.dev-btn--active {
+  background: rgba(255, 51, 51, 0.15);
+  text-shadow: 0 0 8px #ff3333;
+}
+
+/* Layout */
+
+.dev-flex {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.dev-columns {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Text */
+
+.dev-hint {
+  color: var(--green-dim);
+  font-size: 14px;
+}
+
+/* Code / Pre */
+
+.dev-code {
+  background: var(--bg-terminal);
+  border: 1px solid var(--green-dim);
+  padding: 16px;
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+/* Table */
+
+.dev-table {
+  border-collapse: collapse;
+  font-size: 18px;
+  width: 100%;
+}
+
+.dev-table th {
+  text-align: left;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--green-dim);
+  color: var(--green-dim);
+}
+
+.dev-table td {
+  padding: 6px 16px;
+  border-bottom: 1px solid rgba(26, 153, 26, 0.3);
+}
+
+.dev-table tr.active {
+  background: rgba(51, 255, 51, 0.1);
+}
+
+/* Form elements */
+
+.dev-select {
+  background: var(--bg-dark);
+  border: 1px solid var(--green-dim);
+  color: var(--green-primary);
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+/* Preview */
+
+.dev-preview {
+  background: #050505;
+  border: 1px solid var(--green-dim);
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Labels */
+
+.dev-label {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}

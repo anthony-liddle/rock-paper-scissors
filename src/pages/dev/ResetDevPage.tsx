@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { loadPlayerMemory, clearPlayerMemory } from '@engine/playerMemory';
 
+import '@styles/dev-pages.css';
+
 export function ResetDevPage() {
   const [memory, setMemory] = useState(() => loadPlayerMemory());
   const [cleared, setCleared] = useState(false);
@@ -12,42 +14,21 @@ export function ResetDevPage() {
   };
 
   return (
-    <div style={{
-      background: '#0a0a0a',
-      color: '#33ff33',
-      fontFamily: "'VT323', monospace",
-      fontSize: '18px',
-      padding: '40px',
-      minHeight: '100vh',
-    }}>
-      <h1 style={{ fontSize: '28px', marginBottom: '24px' }}>
+    <div className="dev-page dev-page--padded">
+      <h1 style={{ marginBottom: '24px' }}>
         {'>'} MEMORY DEV PAGE
       </h1>
-      <p style={{ color: '#1a991a', marginBottom: '16px' }}>
+      <p className="dev-subtitle" style={{ marginBottom: '16px' }}>
         Stored player memory:
       </p>
-      <pre style={{
-        background: '#0d1a0d',
-        border: '1px solid #1a991a',
-        padding: '16px',
-        marginBottom: '24px',
-        fontSize: '16px',
-        lineHeight: '1.5',
-      }}>
+      <pre className="dev-code">
         {JSON.stringify(memory, null, 2)}
       </pre>
       {!cleared ? (
         <button
           onClick={handleClear}
-          style={{
-            background: 'transparent',
-            border: '1px solid #33ff33',
-            color: '#33ff33',
-            fontFamily: "'VT323', monospace",
-            fontSize: '22px',
-            padding: '12px 32px',
-            cursor: 'pointer',
-          }}
+          className="dev-btn"
+          style={{ fontSize: '22px', padding: '12px 32px' }}
         >
           [ CLEAR MEMORY ]
         </button>
@@ -56,7 +37,7 @@ export function ResetDevPage() {
           Memory cleared. Reload to start fresh.
         </p>
       )}
-      <p style={{ color: '#1a991a', marginTop: '32px', fontSize: '14px' }}>
+      <p className="dev-hint" style={{ marginTop: '32px' }}>
         Access this page at /dev/reset or /dev/storage
       </p>
     </div>

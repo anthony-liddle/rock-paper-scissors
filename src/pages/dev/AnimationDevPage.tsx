@@ -11,6 +11,7 @@ import '@styles/base.css';
 import '@styles/tension.css';
 import '@styles/ascii-animation.css';
 import '@styles/crt-screen.css';
+import '@styles/dev-pages.css';
 
 const TENSION_LEVELS: TensionState[] = ['CALM', 'UNEASY', 'IRRITATED', 'UNSTABLE', 'MELTDOWN'];
 const animationNames = Object.keys(animations);
@@ -283,74 +284,69 @@ export function AnimationDevPage() {
     : '';
 
   return (
-    <div style={{
-      background: '#0a0a0a',
-      color: '#33ff33',
-      fontFamily: "'VT323', monospace",
-      height: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      overflow: 'hidden',
-    }}>
+    <div className="dev-page dev-page--flex">
       {/* Header */}
-      <div style={{ padding: '16px 24px 0', flexShrink: 0 }}>
-        <h1 style={{ fontSize: '28px', margin: '0 0 4px' }}>
+      <div className="dev-header" style={{ padding: '16px 24px 0' }}>
+        <h1 style={{ margin: '0 0 4px' }}>
           ANIMATION DEV PAGE
         </h1>
-        <p style={{ color: '#1a991a', fontSize: '16px', margin: 0 }}>
+        <p className="dev-subtitle">
           Preview, step through, and inspect all {animationNames.length} animations.
         </p>
       </div>
 
       {/* Two-column layout: controls left, preview right */}
-      <div style={{ display: 'flex', flex: 1, minHeight: 0, gap: '24px', padding: '16px 24px' }}>
+      <div className="dev-columns" style={{ gap: '24px', padding: '16px 24px' }}>
         {/* Left column: Controls (scrollable) */}
         <div style={{ width: '480px', flexShrink: 0, overflowY: 'auto', paddingRight: '8px' }}>
           {/* Animation Selector */}
-          <section style={{ marginBottom: '20px' }}>
-            <h2 style={{ fontSize: '22px', marginBottom: '8px' }}>ANIMATION</h2>
-            <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+          <section className="dev-section">
+            <h2>ANIMATION</h2>
+            <div className="dev-flex" style={{ gap: '12px', alignItems: 'center' }}>
               <select
                 value={selectedAnim}
                 onChange={(e) => setSelectedAnim(e.target.value)}
-                style={selectStyle}
+                className="dev-select"
               >
                 {animationNames.map((name) => (
                   <option key={name} value={name}>{name}</option>
                 ))}
               </select>
-              <span style={{ color: '#1a991a', fontSize: '16px' }}>
+              <span className="dev-hint" style={{ fontSize: '16px' }}>
                 {getAnimationCategory(selectedAnim)} | {frames.length} frames
               </span>
             </div>
           </section>
 
           {/* Playback Controls */}
-          <section style={{ marginBottom: '20px' }}>
-            <h2 style={{ fontSize: '22px', marginBottom: '8px' }}>PLAYBACK</h2>
-            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '8px' }}>
-              <button onClick={() => setPlaying(!playing)} style={btnStyleSm(playing ? '#ff3333' : '#33ff33')}>
+          <section className="dev-section">
+            <h2>PLAYBACK</h2>
+            <div className="dev-flex" style={{ alignItems: 'center', marginBottom: '8px' }}>
+              <button
+                onClick={() => setPlaying(!playing)}
+                className={`dev-btn dev-btn--sm ${playing ? 'dev-btn--danger' : ''}`}
+              >
                 {playing ? 'PAUSE' : 'PLAY'}
               </button>
-              <button onClick={() => step(-1)} style={btnStyleSm('#33ff33')}>&lt; STEP</button>
-              <button onClick={() => step(1)} style={btnStyleSm('#33ff33')}>STEP &gt;</button>
-              <button onClick={resetFrame} style={btnStyleSm('#33ff33')}>RESET</button>
+              <button onClick={() => step(-1)} className="dev-btn dev-btn--sm">&lt; STEP</button>
+              <button onClick={() => step(1)} className="dev-btn dev-btn--sm">STEP &gt;</button>
+              <button onClick={resetFrame} className="dev-btn dev-btn--sm">RESET</button>
               <span style={{ fontSize: '16px', marginLeft: '8px' }}>
-                Frame: <span ref={counterRef} style={{ color: '#33ff33' }} />
+                Frame: <span ref={counterRef} />
               </span>
             </div>
-            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '8px' }}>
+            <div className="dev-flex" style={{ alignItems: 'center', marginBottom: '8px' }}>
               {(['forward', 'reverse', 'pingpong'] as PlaybackDirection[]).map((d) => (
                 <button
                   key={d}
                   onClick={() => setDirection(d)}
-                  style={btnStyleSm(direction === d ? '#33ff33' : '#1a991a', direction === d)}
+                  className={`dev-btn dev-btn--sm ${direction === d ? 'dev-btn--active' : 'dev-btn--dim'}`}
                 >
                   {d === 'pingpong' ? 'P-PONG' : d.toUpperCase()}
                 </button>
               ))}
             </div>
-            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+            <div className="dev-flex" style={{ alignItems: 'center' }}>
               <span style={{ fontSize: '14px' }}>Rate:</span>
               <input
                 type="range"
@@ -360,10 +356,10 @@ export function AnimationDevPage() {
                 onChange={(e) => setFrameRate(Number(e.target.value))}
                 style={{ width: '120px', accentColor: '#33ff33' }}
               />
-              <span style={{ color: '#1a991a', fontSize: '14px' }}>
+              <span className="dev-hint">
                 {frameRate}ms ({Math.round(1000 / frameRate)} FPS)
               </span>
-              <label style={{ fontSize: '14px', display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
+              <label className="dev-label">
                 <input
                   type="checkbox"
                   checked={lockToTension}
@@ -376,17 +372,14 @@ export function AnimationDevPage() {
           </section>
 
           {/* Tension Browser */}
-          <section style={{ marginBottom: '20px' }}>
-            <h2 style={{ fontSize: '22px', marginBottom: '8px' }}>TENSION BROWSER</h2>
-            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '8px' }}>
+          <section className="dev-section">
+            <h2>TENSION BROWSER</h2>
+            <div className="dev-flex" style={{ marginBottom: '8px' }}>
               {TENSION_LEVELS.map((level) => (
                 <button
                   key={level}
                   onClick={() => handleTensionSelect(level)}
-                  style={btnStyleSm(
-                    selectedTension === level ? '#33ff33' : '#1a991a',
-                    selectedTension === level,
-                  )}
+                  className={`dev-btn dev-btn--sm ${selectedTension === level ? 'dev-btn--active' : 'dev-btn--dim'}`}
                 >
                   {selectedTension === level ? `> ${level} <` : level}
                 </button>
@@ -394,19 +387,16 @@ export function AnimationDevPage() {
             </div>
             {selectedTension && (
               <div>
-                <p style={{ color: '#1a991a', fontSize: '14px', marginBottom: '6px' }}>
+                <p className="dev-hint" style={{ marginBottom: '6px' }}>
                   Pool: {tensionAnimations[selectedTension].join(', ')} |
                   {' '}{tensionFrameRate[selectedTension]}ms ({Math.round(1000 / tensionFrameRate[selectedTension])} FPS)
                 </p>
-                <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                <div className="dev-flex" style={{ gap: '6px' }}>
                   {tensionAnimations[selectedTension].map((name) => (
                     <button
                       key={name}
                       onClick={() => setSelectedAnim(name)}
-                      style={btnStyleSm(
-                        selectedAnim === name ? '#33ff33' : '#1a991a',
-                        selectedAnim === name,
-                      )}
+                      className={`dev-btn dev-btn--sm ${selectedAnim === name ? 'dev-btn--active' : 'dev-btn--dim'}`}
                     >
                       {name}
                     </button>
@@ -417,12 +407,12 @@ export function AnimationDevPage() {
           </section>
 
           {/* Corruption Controls */}
-          <section style={{ marginBottom: '20px' }}>
-            <h2 style={{ fontSize: '22px', marginBottom: '8px' }}>CORRUPTION</h2>
-            <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+          <section className="dev-section">
+            <h2>CORRUPTION</h2>
+            <div className="dev-flex" style={{ gap: '10px', alignItems: 'center' }}>
               <button
                 onClick={() => setCorruptionEnabled(!corruptionEnabled)}
-                style={btnStyleSm(corruptionEnabled ? '#ff3333' : '#33ff33', corruptionEnabled)}
+                className={`dev-btn dev-btn--sm ${corruptionEnabled ? 'dev-btn--danger dev-btn--active' : ''}`}
               >
                 {corruptionEnabled ? 'ON' : 'OFF'}
               </button>
@@ -436,10 +426,10 @@ export function AnimationDevPage() {
                     onChange={(e) => setCorruptionIntensity(Number(e.target.value) / 100)}
                     style={{ width: '120px', accentColor: '#ff3333' }}
                   />
-                  <span style={{ color: '#1a991a', fontSize: '14px' }}>
+                  <span className="dev-hint">
                     {Math.round(corruptionIntensity * 100)}%
                   </span>
-                  <span style={{ color: '#1a991a', fontSize: '12px' }}>
+                  <span className="dev-hint" style={{ fontSize: '12px' }}>
                     (Sub: {Math.round((3 + 5 * corruptionIntensity) * 100) / 100}% | Overlay: 30% | Tear: 15%)
                   </span>
                 </>
@@ -448,23 +438,23 @@ export function AnimationDevPage() {
           </section>
 
           {/* Visual Tools */}
-          <section style={{ marginBottom: '20px' }}>
-            <h2 style={{ fontSize: '22px', marginBottom: '8px' }}>VISUAL TOOLS</h2>
-            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
+          <section className="dev-section">
+            <h2>VISUAL TOOLS</h2>
+            <div className="dev-flex" style={{ gap: '10px', alignItems: 'center' }}>
               <button
                 onClick={() => setShowTensionCss(!showTensionCss)}
-                style={btnStyleSm(showTensionCss ? '#33ff33' : '#1a991a', showTensionCss)}
+                className={`dev-btn dev-btn--sm ${showTensionCss ? 'dev-btn--active' : 'dev-btn--dim'}`}
               >
                 {showTensionCss ? 'TENSION CSS ON' : 'TENSION CSS OFF'}
               </button>
               {showTensionCss && !selectedTension && (
-                <span style={{ color: '#1a991a', fontSize: '12px' }}>
+                <span className="dev-hint" style={{ fontSize: '12px' }}>
                   Select a tension level to preview
                 </span>
               )}
               <button
                 onClick={() => setComparisonEnabled(!comparisonEnabled)}
-                style={btnStyleSm(comparisonEnabled ? '#33ff33' : '#1a991a', comparisonEnabled)}
+                className={`dev-btn dev-btn--sm ${comparisonEnabled ? 'dev-btn--active' : 'dev-btn--dim'}`}
               >
                 {comparisonEnabled ? 'COMPARISON ON' : 'COMPARISON OFF'}
               </button>
@@ -472,7 +462,8 @@ export function AnimationDevPage() {
                 <select
                   value={comparisonAnim}
                   onChange={(e) => setComparisonAnim(e.target.value)}
-                  style={{ ...selectStyle, fontSize: '16px', padding: '4px 8px' }}
+                  className="dev-select"
+                  style={{ fontSize: '16px', padding: '4px 8px' }}
                 >
                   {animationNames.map((name) => (
                     <option key={name} value={name}>{name}</option>
@@ -483,30 +474,30 @@ export function AnimationDevPage() {
           </section>
 
           {/* Frame Inspector */}
-          <section style={{ marginBottom: '20px' }}>
+          <section className="dev-section">
             <h2
-              style={{ fontSize: '22px', marginBottom: '8px', cursor: 'pointer' }}
+              style={{ cursor: 'pointer' }}
               onClick={handleInspectorToggle}
             >
               {inspectorOpen ? '▼' : '▶'} FRAME INSPECTOR
             </h2>
             {inspectorOpen && (
               <div style={{ border: '1px solid #1a991a', padding: '12px', background: '#050505' }}>
-                <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginBottom: '12px' }}>
+                <div className="dev-flex" style={{ gap: '16px', marginBottom: '12px' }}>
                   <div>
-                    <span style={{ color: '#1a991a', fontSize: '12px' }}>Dimensions: </span>
+                    <span className="dev-hint" style={{ fontSize: '12px' }}>Dimensions: </span>
                     <span style={{ fontSize: '14px' }}>{frameDimensions}</span>
                   </div>
                   <div>
-                    <span style={{ color: '#1a991a', fontSize: '12px' }}>Unique chars: </span>
+                    <span className="dev-hint" style={{ fontSize: '12px' }}>Unique chars: </span>
                     <span style={{ fontSize: '14px' }}>{uniqueChars}</span>
                   </div>
                   <div>
-                    <span style={{ color: '#1a991a', fontSize: '12px' }}>Non-space chars: </span>
+                    <span className="dev-hint" style={{ fontSize: '12px' }}>Non-space chars: </span>
                     <span style={{ fontSize: '14px' }}>{nonSpaceCount}</span>
                   </div>
                 </div>
-                <p style={{ color: '#1a991a', fontSize: '12px', marginBottom: '6px' }}>Raw frame (with line numbers):</p>
+                <p className="dev-hint" style={{ fontSize: '12px', marginBottom: '6px' }}>Raw frame (with line numbers):</p>
                 <pre style={{
                   margin: 0,
                   fontSize: '10px',
@@ -542,23 +533,13 @@ export function AnimationDevPage() {
           }}>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '4px', flexShrink: 0 }}>
               <span style={{ fontSize: '18px' }}>{selectedAnim}</span>
-              <span style={{ color: '#1a991a', fontSize: '14px' }}>
+              <span className="dev-hint">
                 {getAnimationCategory(selectedAnim)}
               </span>
             </div>
             <div
               ref={containerRef}
-              className={tensionCssClass}
-              style={{
-                background: '#050505',
-                border: '1px solid #1a991a',
-                flex: 1,
-                overflow: 'hidden',
-                position: 'relative',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
+              className={`dev-preview ${tensionCssClass}`}
             >
               <pre
                 ref={preRef}
@@ -588,21 +569,11 @@ export function AnimationDevPage() {
             }}>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '4px', flexShrink: 0 }}>
                 <span style={{ fontSize: '18px' }}>{comparisonAnim}</span>
-                <span ref={counterRef2} style={{ fontSize: '14px', color: '#33ff33' }} />
+                <span ref={counterRef2} style={{ fontSize: '14px' }} />
               </div>
               <div
                 ref={containerRef2}
-                className={tensionCssClass}
-                style={{
-                  background: '#050505',
-                  border: '1px solid #1a991a',
-                  flex: 1,
-                  overflow: 'hidden',
-                  position: 'relative',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
+                className={`dev-preview ${tensionCssClass}`}
               >
                 <pre
                   ref={preRef2}
@@ -626,26 +597,3 @@ export function AnimationDevPage() {
     </div>
   );
 }
-
-function btnStyleSm(color: string, active = false): React.CSSProperties {
-  return {
-    background: active ? 'rgba(51,255,51,0.15)' : 'transparent',
-    border: `1px solid ${color}`,
-    color,
-    fontFamily: "'VT323', monospace",
-    fontSize: '16px',
-    padding: '4px 12px',
-    cursor: 'pointer',
-    textShadow: active ? `0 0 8px ${color}` : 'none',
-  };
-}
-
-const selectStyle: React.CSSProperties = {
-  background: '#0a0a0a',
-  border: '1px solid #1a991a',
-  color: '#33ff33',
-  fontFamily: "'VT323', monospace",
-  fontSize: '20px',
-  padding: '8px 16px',
-  cursor: 'pointer',
-};

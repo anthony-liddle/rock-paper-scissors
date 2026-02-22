@@ -3,6 +3,8 @@ import { musicManager } from '@engine/musicManager';
 import type { TensionState } from '@engine/types';
 import { TENSION_BPM, TENSION_LAYERS } from '@engine/musicManager';
 
+import '@styles/dev-pages.css';
+
 const TENSION_LEVELS: TensionState[] = ['CALM', 'UNEASY', 'IRRITATED', 'UNSTABLE', 'MELTDOWN'];
 const SFX_TYPES = ['win', 'lose', 'tie', 'click', 'permission', 'disruption', 'ending-broken', 'ending-escaped'] as const;
 
@@ -38,21 +40,13 @@ export function SoundDevPage() {
   };
 
   return (
-    <div style={{
-      background: '#0a0a0a',
-      color: '#33ff33',
-      fontFamily: "'VT323', monospace",
-      height: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      overflow: 'hidden',
-    }}>
+    <div className="dev-page dev-page--flex">
       {/* Header */}
-      <div style={{ padding: '24px 40px 0', flexShrink: 0 }}>
-        <h1 style={{ fontSize: '32px', marginBottom: '8px' }}>
+      <div className="dev-header" style={{ padding: '24px 40px 0' }}>
+        <h1 style={{ fontSize: '32px' }}>
           SOUND DEV PAGE
         </h1>
-        <p style={{ color: '#1a991a', fontSize: '18px', margin: 0 }}>
+        <p className="dev-subtitle" style={{ fontSize: '18px' }}>
           Test soundtrack layers and sound effects at each tension level.
         </p>
       </div>
@@ -60,16 +54,16 @@ export function SoundDevPage() {
       {!ready ? (
         <p style={{ padding: '40px' }}>Initializing audio engine...</p>
       ) : (
-        <div style={{ display: 'flex', flex: 1, minHeight: 0, gap: '40px', padding: '24px 40px' }}>
+        <div className="dev-columns" style={{ gap: '40px', padding: '24px 40px' }}>
           {/* Left column: Controls */}
           <div style={{ flex: 1, minWidth: 0 }}>
             {/* Transport */}
-            <section style={{ marginBottom: '32px' }}>
+            <section className="dev-section" style={{ marginBottom: '32px' }}>
               <h2 style={{ fontSize: '24px', marginBottom: '12px' }}>TRANSPORT</h2>
-              <div style={{ display: 'flex', gap: '12px' }}>
+              <div className="dev-flex" style={{ gap: '12px' }}>
                 <button
                   onClick={playing ? handleStop : handleStart}
-                  style={btnStyle(playing ? '#ff3333' : '#33ff33')}
+                  className={`dev-btn ${playing ? 'dev-btn--danger' : ''}`}
                 >
                   {playing ? '[ STOP ]' : '[ PLAY ]'}
                 </button>
@@ -77,20 +71,20 @@ export function SoundDevPage() {
             </section>
 
             {/* Tension Selector */}
-            <section style={{ marginBottom: '32px' }}>
+            <section className="dev-section" style={{ marginBottom: '32px' }}>
               <h2 style={{ fontSize: '24px', marginBottom: '12px' }}>TENSION LEVEL</h2>
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              <div className="dev-flex">
                 {TENSION_LEVELS.map((level) => (
                   <button
                     key={level}
                     onClick={() => handleTensionChange(level)}
-                    style={btnStyle(tension === level ? '#33ff33' : '#1a991a', tension === level)}
+                    className={`dev-btn ${tension === level ? 'dev-btn--active' : 'dev-btn--dim'}`}
                   >
                     {tension === level ? `> ${level} <` : level}
                   </button>
                 ))}
               </div>
-              <p style={{ color: '#1a991a', fontSize: '16px', marginTop: '8px' }}>
+              <p className="dev-hint" style={{ fontSize: '16px', marginTop: '8px' }}>
                 Active: {tension} | Layers change in real-time while music plays.
               </p>
             </section>
@@ -98,15 +92,15 @@ export function SoundDevPage() {
             {/* Sound Effects */}
             <section>
               <h2 style={{ fontSize: '24px', marginBottom: '12px' }}>SOUND EFFECTS</h2>
-              <p style={{ color: '#1a991a', fontSize: '16px', marginBottom: '12px' }}>
+              <p className="dev-hint" style={{ fontSize: '16px', marginBottom: '12px' }}>
                 These play independently of the soundtrack. Click to preview.
               </p>
-              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+              <div className="dev-flex" style={{ gap: '12px' }}>
                 {SFX_TYPES.map((type) => (
                   <button
                     key={type}
                     onClick={() => handleSfx(type)}
-                    style={btnStyle('#33ff33')}
+                    className="dev-btn"
                   >
                     [ {type.toUpperCase()} ]
                   </button>
@@ -119,24 +113,22 @@ export function SoundDevPage() {
           <div style={{ flex: 1, minWidth: 0 }}>
             <section>
               <h2 style={{ fontSize: '24px', marginBottom: '12px' }}>LAYER MAP</h2>
-              <table style={{ borderCollapse: 'collapse', fontSize: '18px', width: '100%' }}>
+              <table className="dev-table">
                 <thead>
                   <tr>
-                    <th style={thStyle}>TENSION</th>
-                    <th style={thStyle}>BPM</th>
-                    <th style={thStyle}>ACTIVE LAYERS</th>
+                    <th>TENSION</th>
+                    <th>BPM</th>
+                    <th>ACTIVE LAYERS</th>
                   </tr>
                 </thead>
                 <tbody>
                   {TENSION_LEVELS.map((level) => {
                     const isActive = level === tension;
                     return (
-                      <tr key={level} style={{
-                        background: isActive ? 'rgba(51,255,51,0.1)' : 'transparent',
-                      }}>
-                        <td style={tdStyle}>{isActive ? `> ${level}` : level}</td>
-                        <td style={tdStyle}>{TENSION_BPM[level]}</td>
-                        <td style={tdStyle}>{TENSION_LAYERS[level].join(', ')}</td>
+                      <tr key={level} className={isActive ? 'active' : ''}>
+                        <td>{isActive ? `> ${level}` : level}</td>
+                        <td>{TENSION_BPM[level]}</td>
+                        <td>{TENSION_LAYERS[level].join(', ')}</td>
                       </tr>
                     );
                   })}
@@ -149,28 +141,3 @@ export function SoundDevPage() {
     </div>
   );
 }
-
-function btnStyle(color: string, active = false): React.CSSProperties {
-  return {
-    background: active ? 'rgba(51,255,51,0.15)' : 'transparent',
-    border: `1px solid ${color}`,
-    color,
-    fontFamily: "'VT323', monospace",
-    fontSize: '20px',
-    padding: '10px 24px',
-    cursor: 'pointer',
-    textShadow: active ? `0 0 8px ${color}` : 'none',
-  };
-}
-
-const thStyle: React.CSSProperties = {
-  textAlign: 'left',
-  padding: '8px 16px',
-  borderBottom: '1px solid #1a991a',
-  color: '#1a991a',
-};
-
-const tdStyle: React.CSSProperties = {
-  padding: '6px 16px',
-  borderBottom: '1px solid rgba(26,153,26,0.3)',
-};
