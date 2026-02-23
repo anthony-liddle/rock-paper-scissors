@@ -1,0 +1,45 @@
+/* =============================================
+   POST-ENDING EFFECTS — particle overlay
+   ============================================= */
+
+.ascii-animation-container {
+  position: relative;
+}
+
+.post-ending-overlay {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  font-family: 'VT323', monospace;
+  font-size: 12px;
+  line-height: 1.15;
+  letter-spacing: 0.25em;
+  color: var(--green-primary);
+  white-space: pre;
+}
+
+.post-ending-overlay span {
+  position: absolute;
+  will-change: transform, opacity;
+}
+
+/* ESCAPED glow — pulsing green/white text-shadow */
+.post-ending-glow span {
+  animation: post-ending-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes post-ending-pulse {
+  0%, 100% {
+    text-shadow:
+      0 0 4px #33ff33,
+      0 0 8px #33ff33,
+      0 0 16px rgba(51, 255, 51, 0.4);
+  }
+  50% {
+    text-shadow:
+      0 0 6px #ffffff,
+      0 0 12px #aaffaa,
+      0 0 24px rgba(255, 255, 255, 0.5);
+  }
+}
