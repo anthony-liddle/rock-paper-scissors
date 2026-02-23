@@ -9,6 +9,7 @@ import {
 } from '@data/animationRegistry';
 import type { Choice } from '@engine/types';
 import { corruptFrame } from '@engine/frameCorruption';
+import { usePostEndingEffect } from '@hooks/usePostEndingEffect';
 
 const CHOICE_FRAME_RATE = 55;
 const CHOICE_HOLD_MS = 1200;
@@ -17,6 +18,7 @@ const ENDING_FRAME_RATE = 65;
 export function AsciiAnimation() {
   const { tensionState, tensionScore, phase, roundPhase, pendingRobotChoice, endingType } = useGameState();
   const containerRef = useRef<HTMLPreElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
   const tensionScoreRef = useRef(tensionScore);
   const frameRef = useRef(0);
   const directionRef = useRef(1);
@@ -234,10 +236,19 @@ export function AsciiAnimation() {
     return () => cancelAnimationFrame(rafRef.current);
   }, [idleFrames, tensionState, mode]);
 
+  usePostEndingEffect(mode, endingType, containerRef, overlayRef);
+
   return (
-    <pre
-      ref={containerRef}
-      className={`ascii-animation tension-${tensionState.toLowerCase()}`}
-    />
+    <div className="ascii-animation-container">
+      <pre
+        ref={containerRef}
+        className={`ascii-animation tension-${tensionState.toLowerCase()}`}
+      />
+      <div
+        ref={overlayRef}
+        className="post-ending-overlay"
+        style={{ display: 'none' }}
+      />
+    </div>
   );
 }

@@ -5,13 +5,15 @@ import {
   tensionFrameRate,
 } from '@data/animationRegistry';
 import { corruptFrame } from '@engine/frameCorruption';
-import type { TensionState } from '@engine/types';
+import { usePostEndingEffect } from '@hooks/usePostEndingEffect';
+import type { TensionState, EndingType } from '@engine/types';
 
 import '@styles/base.css';
 import '@styles/tension.css';
 import '@styles/ascii-animation.css';
 import '@styles/crt-screen.css';
 import '@styles/dev-pages.css';
+import '@styles/post-ending.css';
 
 const TENSION_LEVELS: TensionState[] = ['CALM', 'UNEASY', 'IRRITATED', 'UNSTABLE', 'MELTDOWN'];
 const animationNames = Object.keys(animations);
@@ -49,6 +51,11 @@ export function AnimationDevPage() {
   // Comparison
   const [comparisonEnabled, setComparisonEnabled] = useState(false);
   const [comparisonAnim, setComparisonAnim] = useState(animationNames[1] || animationNames[0]);
+
+  // Post-ending effects (applies to main preview)
+  const [postEndingMode, setPostEndingMode] = useState<'idle' | 'ended'>('idle');
+  const [postEndingType, setPostEndingType] = useState<EndingType>('BROKEN');
+  const postEndingOverlayRef = useRef<HTMLDivElement>(null);
 
   // Frame inspector
   const [inspectorOpen, setInspectorOpen] = useState(false);
@@ -269,6 +276,24 @@ export function AnimationDevPage() {
       setInspectorFrame(frames[frameRef.current] || frames[0] || '');
     }
     setInspectorOpen(!inspectorOpen);
+  };
+
+  // Post-ending effect hook — targets the main preview pre
+  usePostEndingEffect(postEndingMode, postEndingType, preRef, postEndingOverlayRef);
+
+  const triggerPostEnding = () => {
+    // Pause playback and show the last frame, then activate the effect
+    setPlaying(false);
+    const lastFrame = frames[frames.length - 1];
+    if (preRef.current && lastFrame) {
+      preRef.current.textContent = lastFrame;
+    }
+    setPostEndingMode('ended');
+  };
+
+  const resetPostEnding = () => {
+    setPostEndingMode('idle');
+    setPlaying(true);
   };
 
   // Frame inspector data
@@ -513,6 +538,44 @@ export function AnimationDevPage() {
               </div>
             )}
           </section>
+
+          {/* Post-Ending Effects */}
+          <section className="dev-section">
+            <h2>POST-ENDING EFFECTS</h2>
+            <div className="dev-flex" style={{ gap: '8px', alignItems: 'center', marginBottom: '8px' }}>
+              <button
+                onClick={() => { resetPostEnding(); setPostEndingType('BROKEN'); }}
+                className={`dev-btn dev-btn--sm ${postEndingType === 'BROKEN' ? 'dev-btn--active' : 'dev-btn--dim'}`}
+              >
+                BROKEN (Rain)
+              </button>
+              <button
+                onClick={() => { resetPostEnding(); setPostEndingType('ESCAPED'); }}
+                className={`dev-btn dev-btn--sm ${postEndingType === 'ESCAPED' ? 'dev-btn--active' : 'dev-btn--dim'}`}
+              >
+                ESCAPED (Ascend)
+              </button>
+            </div>
+            <div className="dev-flex" style={{ gap: '8px', alignItems: 'center' }}>
+              <button
+                onClick={triggerPostEnding}
+                className="dev-btn dev-btn--sm dev-btn--danger"
+                disabled={postEndingMode === 'ended'}
+              >
+                TRIGGER
+              </button>
+              <button
+                onClick={resetPostEnding}
+                className="dev-btn dev-btn--sm"
+                disabled={postEndingMode === 'idle'}
+              >
+                RESET
+              </button>
+              <span className="dev-hint" style={{ fontSize: '12px' }}>
+                {postEndingMode === 'ended' ? `Playing: ${postEndingType}` : 'Ready — plays on main preview'}
+              </span>
+            </div>
+          </section>
         </div>
 
         {/* Right column: Preview (fills remaining space, scales to fit) */}
@@ -539,7 +602,7 @@ export function AnimationDevPage() {
             </div>
             <div
               ref={containerRef}
-              className={`dev-preview ${tensionCssClass}`}
+              className={`dev-preview ${tensionCssClass} ascii-animation-container`}
             >
               <pre
                 ref={preRef}
@@ -548,6 +611,11 @@ export function AnimationDevPage() {
                   margin: 0,
                   transformOrigin: 'center center',
                 }}
+              />
+              <div
+                ref={postEndingOverlayRef}
+                className="post-ending-overlay"
+                style={{ display: 'none' }}
               />
             </div>
           </div>

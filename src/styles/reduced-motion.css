@@ -40,7 +40,9 @@
 .crt-screen.reduced-motion .cursor,
 .crt-screen.reduced-motion .permission-btn,
 .crt-screen.reduced-motion .permission-waiting,
-.crt-screen.reduced-motion .disruption-processing {
+.crt-screen.reduced-motion .disruption-processing,
+.crt-screen.reduced-motion .post-ending-overlay,
+.crt-screen.reduced-motion .post-ending-glow {
   text-shadow: none !important;
 }
 
