@@ -18,6 +18,9 @@ dist-ssr
 # OS
 .DS_Store
 
+# Worktrees
+.worktrees
+
 # Logs
 npm-debug.log*
 pnpm-debug.log*
