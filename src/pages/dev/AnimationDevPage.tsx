@@ -24,9 +24,9 @@ function getAnimationCategory(name: string): string {
   }
   if (name.startsWith('grasp')) return 'Grasp sequence';
   if (name.startsWith('burst')) return 'Burst';
-  if (name === 'rock2') return 'Choice reveal (rock)';
-  if (name === 'paper2') return 'Choice reveal (paper)';
-  if (name === 'scissors3') return 'Choice reveal (scissors)';
+  if (name === 'rock') return 'Choice reveal (rock)';
+  if (name === 'paper') return 'Choice reveal (paper)';
+  if (name === 'scissors') return 'Choice reveal (scissors)';
   return 'Uncategorized';
 }
 
@@ -546,12 +546,6 @@ export function AnimationDevPage() {
                 className="ascii-animation"
                 style={{
                   margin: 0,
-                  color: '#33ff33',
-                  whiteSpace: 'pre',
-                  fontFamily: "'VT323', monospace",
-                  fontSize: '12px',
-                  lineHeight: 1.15,
-                  letterSpacing: '0.25em',
                   transformOrigin: 'center center',
                 }}
               />
@@ -580,12 +574,6 @@ export function AnimationDevPage() {
                   className="ascii-animation"
                   style={{
                     margin: 0,
-                    color: '#33ff33',
-                    whiteSpace: 'pre',
-                    fontFamily: "'VT323', monospace",
-                    fontSize: '12px',
-                    lineHeight: 1.15,
-                    letterSpacing: '0.25em',
                     transformOrigin: 'center center',
                   }}
                 />
