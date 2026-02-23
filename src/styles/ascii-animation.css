@@ -12,3 +12,14 @@
   font-family: 'VT323', monospace;
   transition: text-shadow 0.3s;
 }
+
+/* =============================================
+   MOBILE LAYOUT
+   ============================================= */
+
+@media (max-width: 600px) {
+  .ascii-animation {
+    font-size: clamp(8px, 2.8vw, 12px);
+    letter-spacing: 0.15em;
+  }
+}

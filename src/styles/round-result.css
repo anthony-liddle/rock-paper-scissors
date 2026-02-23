@@ -25,3 +25,14 @@
   text-align: center;
   letter-spacing: 6px;
 }
+
+/* =============================================
+   MOBILE LAYOUT
+   ============================================= */
+
+@media (max-width: 600px) {
+  .result-label {
+    font-size: clamp(32px, 8vw, 48px);
+    letter-spacing: 3px;
+  }
+}

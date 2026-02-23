@@ -25,6 +25,17 @@ export const PERMISSION_THRESHOLDS: PermissionThreshold[] = [
   { type: 'fullscreen', threshold: 80 },
 ];
 
+function isPermissionSupported(type: PermissionType): boolean {
+  switch (type) {
+    case 'notification':
+      return 'Notification' in window;
+    case 'fullscreen':
+      return !!document.documentElement.requestFullscreen;
+    default:
+      return true;
+  }
+}
+
 // Returns the next permission to request based on tension score and history
 export function getNextPermission(
   tensionScore: number,
@@ -32,7 +43,7 @@ export function getNextPermission(
 ): PermissionType | null {
   const handled = new Set(history.map((h) => h.type));
   for (const { type, threshold } of PERMISSION_THRESHOLDS) {
-    if (tensionScore >= threshold && !handled.has(type)) {
+    if (tensionScore >= threshold && !handled.has(type) && isPermissionSupported(type)) {
       return type;
     }
   }
