@@ -30,3 +30,20 @@
 .score-separator {
   color: var(--green-dim);
 }
+
+/* =============================================
+   MOBILE LAYOUT
+   ============================================= */
+
+@media (max-width: 600px) {
+  .scoreboard {
+    font-size: clamp(20px, 5.5vw, 28px);
+    letter-spacing: 2px;
+    padding: 6px 14px;
+    gap: 8px;
+  }
+
+  .score-label {
+    font-size: clamp(14px, 4vw, 20px);
+  }
+}

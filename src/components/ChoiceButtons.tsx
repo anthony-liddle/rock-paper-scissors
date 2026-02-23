@@ -18,6 +18,8 @@ const BASE_CHOICES: ChoiceConfig[] = [
   { choice: 'scissors', label: '[ SCISSORS ]', key: '3' },
 ];
 
+const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+
 export function ChoiceButtons() {
   const { phase, roundPhase, tensionState, dialogueComplete, pendingPermission } = useGameState();
   const [locked, setLocked] = useState(false);
@@ -225,15 +227,15 @@ export function ChoiceButtons() {
 
         return (
           <div key={choice} className="choice-btn-wrapper">
-            {hoverComment && hoverComment.buttonIndex === index && (
+            {!isTouchDevice && hoverComment && hoverComment.buttonIndex === index && (
               <div className="hover-commentary">{hoverComment?.text}</div>
             )}
             <button
               className={`choice-btn ${jittering ? 'btn-jitter' : ''}`}
               style={jitterStyle}
               onClick={() => handleChoice(choice)}
-              onMouseEnter={() => handleHover(choice, index)}
-              onMouseLeave={handleHoverLeave}
+              onMouseEnter={isTouchDevice ? undefined : () => handleHover(choice, index)}
+              onMouseLeave={isTouchDevice ? undefined : handleHoverLeave}
             >
               <span className="choice-key">{key}.</span> {displayLabel}
             </button>

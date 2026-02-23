@@ -93,3 +93,20 @@
   0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }
 }
+
+/* =============================================
+   MOBILE LAYOUT
+   ============================================= */
+
+@media (max-width: 600px) {
+  .dialogue-box {
+    font-size: clamp(20px, 5.5vw, 36px);
+    max-width: calc(100vw - 32px);
+    padding: 8px 12px;
+    gap: 10px;
+  }
+
+  .next-hint {
+    font-size: clamp(16px, 4vw, 24px);
+  }
+}

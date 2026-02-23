@@ -39,3 +39,32 @@
 .settings-btn-off:hover {
   opacity: 0.8;
 }
+
+/* =============================================
+   TOUCH DEVICES
+   ============================================= */
+
+@media (pointer: coarse) {
+  .settings-btn {
+    opacity: 0.7;
+  }
+
+  .settings-btn-off {
+    opacity: 0.45;
+  }
+}
+
+/* =============================================
+   MOBILE LAYOUT
+   ============================================= */
+
+@media (max-width: 600px) {
+  .settings-bar {
+    top: 8px;
+    right: 8px;
+  }
+
+  .settings-btn {
+    padding: 10px 12px;
+  }
+}

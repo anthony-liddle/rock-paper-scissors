@@ -58,3 +58,22 @@
     0 0 12px var(--bg-dark);
   animation: processing-blink 0.6s step-end infinite;
 }
+
+/* =============================================
+   MOBILE LAYOUT
+   ============================================= */
+
+@media (max-width: 600px) {
+  .permission-prompt {
+    gap: 12px;
+  }
+
+  .permission-btn {
+    font-size: clamp(16px, 4.5vw, 22px);
+    padding: 12px 20px;
+  }
+
+  .permission-waiting {
+    font-size: clamp(16px, 4.5vw, 22px);
+  }
+}

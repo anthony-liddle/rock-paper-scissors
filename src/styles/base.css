@@ -22,7 +22,13 @@
   box-sizing: border-box;
 }
 
-html, body, #root {
+html {
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+body, #root {
   height: 100%;
   overflow: hidden;
 }
