@@ -14,6 +14,9 @@ A rock-paper-scissors game with an attitude — built with React, TypeScript, an
 - Integrated soundscape powered by [Soundscape Engine](https://github.com/anthony-liddle/soundscape)
 - Illusion engine and tension mechanics
 - Player memory and returning player detection
+- Mobile-responsive design with touch device support
+- Privacy-respecting analytics via PostHog (no cookies, honors Do Not Track)
+- Post-ending particle effects
 
 ## Getting Started
 
@@ -50,11 +53,12 @@ rock-paper-scissors/
 │   ├── components/     # React components
 │   ├── data/           # Dialogue, animations, and soundscape config
 │   │   └── animations/ # ASCII art animation sequences
-│   ├── engine/         # Game engine (store, RNG, tension, illusions, etc.)
+│   ├── engine/         # Game engine (store, RNG, tension, illusions, analytics, etc.)
 │   ├── hooks/          # React hooks
 │   ├── pages/          # Standalone pages
 │   │   └── dev/        # Developer tools (sound, animation, storage)
 │   ├── styles/         # CRT and visual effect styles
+│   ├── utils/          # Shared utilities (RNG, etc.)
 │   ├── App.tsx         # Root application component
 │   └── main.tsx        # Entry point and router
 ├── public/             # Static assets
@@ -68,6 +72,8 @@ rock-paper-scissors/
 - **TypeScript 5.9** — Type safety
 - **Vite 7** — Build tool and dev server
 - **Soundscape Engine** — Audio and soundscape management
+- **Vitest** — Unit testing
+- **PostHog** — Privacy-respecting analytics
 - **ESLint** — Code linting
 
 ## Contributing
