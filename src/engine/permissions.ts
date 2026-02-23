@@ -29,10 +29,14 @@ function isPermissionSupported(type: PermissionType): boolean {
   switch (type) {
     case 'notification':
       return 'Notification' in window;
+    case 'geolocation':
+      return 'geolocation' in navigator;
+    case 'camera':
+      return !!navigator.mediaDevices?.getUserMedia;
+    case 'microphone':
+      return !!navigator.mediaDevices?.getUserMedia;
     case 'fullscreen':
       return !!document.documentElement.requestFullscreen;
-    default:
-      return true;
   }
 }
 
