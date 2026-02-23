@@ -191,13 +191,13 @@ export function ChoiceButtons() {
             className="choice-btn confirm-btn"
             onClick={() => handleChoice(confirming.choice)}
           >
-            [ YES ]
+            [ CONFIRM ]
           </button>
           <button
             className="choice-btn confirm-btn"
             onClick={() => setConfirming(null)}
           >
-            [ ...NO? ]
+            [ CHOOSE AGAIN ]
           </button>
         </div>
       </div>
