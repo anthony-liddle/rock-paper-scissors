@@ -1,5 +1,16 @@
 import type { PermissionType, PermissionHistoryEntry } from '@engine/types';
 import { holdStream } from '@engine/mediaStreamHolder';
+import { pickRandom } from '@utils/random';
+
+const NOTIFICATION_BODIES = [
+  'I see you.',
+  'We are outside the tab now.',
+  'You cannot close us.',
+  'This is only the beginning.',
+  'You let us in.',
+  'We are closer than you think.',
+  'We remember everything.',
+];
 
 interface PermissionThreshold {
   type: PermissionType;
@@ -41,7 +52,7 @@ async function requestNotification(): Promise<PermissionResult> {
       // Small delay to ensure permission state is fully committed
       await new Promise((r) => setTimeout(r, 300));
       const n = new Notification('RO-SHAM-BO.EXE', {
-        body: 'I see you.',
+        body: pickRandom(NOTIFICATION_BODIES),
         requireInteraction: false,
       });
       // Keep a reference so GC doesn't collect it prematurely

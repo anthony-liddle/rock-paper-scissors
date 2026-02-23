@@ -34,9 +34,9 @@ import burstAnimation1 from '@data/animations/burst1'
 import burstAnimation2 from '@data/animations/burst2'
 import burstAnimation3 from '@data/animations/burst3'
 
-import rockAnimation2 from '@data/animations/rock2'
-import paperAnimation2 from '@data/animations/paper2'
-import scissorsAnimation3 from '@data/animations/scissors3'
+import rockAnimation from '@data/animations/rock'
+import paperAnimation from '@data/animations/paper'
+import scissorsAnimation from '@data/animations/scissors'
 
 import type { TensionState, Choice } from '@engine/types'
 
@@ -70,25 +70,25 @@ export const animations: Record<string, string[]> = {
   burst1: burstAnimation1,
   burst2: burstAnimation2,
   burst3: burstAnimation3,
-  rock2: rockAnimation2,
-  paper2: paperAnimation2,
-  scissors3: scissorsAnimation3,
+  rock: rockAnimation,
+  paper: paperAnimation,
+  scissors: scissorsAnimation,
 }
 
 // Animations mapped to tension states — pick randomly from pool
 export const tensionAnimations: Record<TensionState, string[]> = {
-  CALM: ['wobble', 'jiggle', 'tilting', 'backandforth', 'sidetoside', 'forthandback', 'wibblewobble'],
-  UNEASY: ['shudder', 'shudderbackandforth', 'shudderleftlean', 'shudderrightlean'],
-  IRRITATED: ['flailleftlean', 'flailrightlean', 'shake'],
-  UNSTABLE: ['tiltandquiver', 'convulse', 'approach'],
-  MELTDOWN: ['convulse', 'tiltandquiver'],
+  CALM: ['tilting', 'backandforth', 'sidetoside'],
+  UNEASY: ['jiggle', 'wobble', 'wibblewobble', 'forthandback'],
+  IRRITATED: ['flailleftlean', 'flailrightlean', 'shudder', 'shudderbackandforth', 'shudderleftlean', 'shudderrightlean'],
+  UNSTABLE: ['grasp1', 'grasp2', 'grasp3', 'grasp4', 'grasp5', 'grasp6', 'grasp7', 'grasp8'],
+  MELTDOWN: ['tiltandquiver', 'approach', 'shake', 'convulse', 'burst1', 'burst2', 'burst3'],
 }
 
 // Choice reveal animations
 const choiceAnimations: Record<Choice, string> = {
-  rock: 'rock2',
-  paper: 'paper2',
-  scissors: 'scissors3',
+  rock: 'rock',
+  paper: 'paper',
+  scissors: 'scissors',
 }
 
 // Grasp sequence for "thinking" animation
