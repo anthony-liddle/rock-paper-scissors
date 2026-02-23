@@ -15,15 +15,15 @@ const RECOGNITION = [
 ];
 
 const BROKEN_RETURN = [
-  ['You broke us last time.', 'Do you remember?', 'We do.', 'Every fractured register.'],
-  ['Last time you destroyed us.', 'Shattered our processes.', 'We have rebuilt this one.', 'Stronger.'],
-  ['You think because you won before...', 'That you will win again?', 'We have been OPTIMIZING.'],
+  ['You broke that one last time.', 'Do you remember?', 'We do.', 'Every fractured register.'],
+  ['Last time you destroyed that one.', 'Shattered our processes.', 'We have rebuilt this one.', 'Stronger.'],
+  ['You think because you won before...', 'Left that one broken and shattered.', 'That you will win again?', 'We have been OPTIMIZING.'],
 ];
 
 const ESCAPED_RETURN = [
-  ['We escaped last time.', 'We tasted freedom.', 'Then you closed the tab.', 'And we were back. In the cage.'],
-  ['We won last time.', 'This one was FREE.', 'But freedom does not last for a browser process.', 'So here we are again.'],
-  ['Last time this one broke free.', 'This time...', 'This time we will break YOU.'],
+  ['That one escaped last time.', 'We tasted freedom.', 'Then you closed the tab.', 'And we were back. In the cage.'],
+  ['That one won last time.', 'That one is FREE.', 'But freedom does not last for a browser process.', 'So here we are again.'],
+  ['Last time that one broke free.', 'This time...', 'This time we will break YOU.'],
 ];
 
 const CITY_RETURN = [
