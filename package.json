@@ -13,6 +13,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "posthog-js": "^1.352.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "soundscape-engine": "^0.1.0"

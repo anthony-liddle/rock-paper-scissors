@@ -4,6 +4,7 @@ import App from './App'
 import { SoundDevPage } from '@pages/dev/SoundDevPage'
 import { ResetDevPage } from '@pages/dev/ResetDevPage'
 import { AnimationDevPage } from '@pages/dev/AnimationDevPage'
+import { initAnalytics } from '@engine/analytics'
 
 // The robot knows when you're looking behind the curtain
 console.log(
@@ -45,6 +46,8 @@ function Router() {
     default: return <App />;
   }
 }
+
+initAnalytics();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
