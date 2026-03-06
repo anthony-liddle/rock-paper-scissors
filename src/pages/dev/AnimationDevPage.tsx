@@ -4,6 +4,7 @@ import {
   tensionAnimations,
   tensionFrameRate,
 } from '@data/animationRegistry';
+import { animationsReady } from '@data/animationsReady';
 import { corruptFrame } from '@engine/frameCorruption';
 import { usePostEndingEffect } from '@hooks/usePostEndingEffect';
 import type { TensionState, EndingType } from '@engine/types';
@@ -16,7 +17,6 @@ import '@styles/dev-pages.css';
 import '@styles/post-ending.css';
 
 const TENSION_LEVELS: TensionState[] = ['CALM', 'UNEASY', 'IRRITATED', 'UNSTABLE', 'MELTDOWN'];
-const animationNames = Object.keys(animations);
 
 type PlaybackDirection = 'forward' | 'reverse' | 'pingpong';
 
@@ -33,6 +33,22 @@ function getAnimationCategory(name: string): string {
 }
 
 export function AnimationDevPage() {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    animationsReady.then(() => setLoaded(true));
+  }, []);
+
+  if (!loaded) {
+    return <div className="dev-page" style={{ padding: '24px', color: '#33ff33' }}>Loading...</div>;
+  }
+
+  return <AnimationDevPageInner />;
+}
+
+function AnimationDevPageInner() {
+  const animationNames = Object.keys(animations);
+
   // Primary animation state
   const [selectedAnim, setSelectedAnim] = useState(animationNames[0]);
   const [playing, setPlaying] = useState(true);
@@ -50,7 +66,7 @@ export function AnimationDevPage() {
 
   // Comparison
   const [comparisonEnabled, setComparisonEnabled] = useState(false);
-  const [comparisonAnim, setComparisonAnim] = useState(animationNames[1] || animationNames[0]);
+  const [comparisonAnim, setComparisonAnim] = useState(animationNames[1] ?? animationNames[0]);
 
   // Post-ending effects (applies to main preview)
   const [postEndingMode, setPostEndingMode] = useState<'idle' | 'ended'>('idle');
