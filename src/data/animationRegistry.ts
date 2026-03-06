@@ -1,128 +1,72 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck — animation files are JS template literals
-import { pickRandom } from '@utils/random'
-import tiltingAnimation from '@data/animations/tilting'
-import backandforthAnimation from '@data/animations/backandforth'
-import sidetosideAnimation from '@data/animations/sidetoside'
-import jiggleAnimation from '@data/animations/jiggle'
-import wobbleAnimation from '@data/animations/wobble'
-import wibblewobbleAnimation from '@data/animations/wibblewobble'
-import forthandbackAnimation from '@data/animations/forthandback'
+import { pickRandom } from '@utils/random';
+import type { TensionState, Choice } from '@engine/types';
 
-import shudderAnimation from '@data/animations/shudder'
-import shudderbackandforthAnimation from '@data/animations/shudderbackandforth'
-import shudderleftleanAnimation from '@data/animations/shudderleftlean'
-import shudderrightleanAnimation from '@data/animations/shudderrightlean'
-import flailleftleanAnimation from '@data/animations/flailleftlean'
-import flailrightleanAnimation from '@data/animations/flailrightlean'
+const ANIMATION_NAMES = [
+  'tilting', 'backandforth', 'sidetoside',
+  'jiggle', 'wobble', 'wibblewobble', 'forthandback',
+  'shudder', 'shudderbackandforth', 'shudderleftlean', 'shudderrightlean',
+  'flailleftlean', 'flailrightlean',
+  'tiltandquiver', 'approach', 'shake', 'convulse',
+  'grasp1', 'grasp2', 'grasp3', 'grasp4', 'grasp5', 'grasp6', 'grasp7', 'grasp8',
+  'burst1', 'burst2', 'burst3',
+  'rock', 'paper', 'scissors',
+] as const;
 
-import tiltandquiverAnimation from '@data/animations/tiltandquiver'
-import approachAnimation from '@data/animations/approach'
-import shakeAnimation from '@data/animations/shake'
-import convulseAnimation from '@data/animations/convulse'
+// In-memory cache — populated by loadAnimations()
+export const animations: Record<string, string[]> = {};
 
-import graspAnimation1 from '@data/animations/grasp1'
-import graspAnimation2 from '@data/animations/grasp2'
-import graspAnimation3 from '@data/animations/grasp3'
-import graspAnimation4 from '@data/animations/grasp4'
-import graspAnimation5 from '@data/animations/grasp5'
-import graspAnimation6 from '@data/animations/grasp6'
-import graspAnimation7 from '@data/animations/grasp7'
-import graspAnimation8 from '@data/animations/grasp8'
-
-import burstAnimation1 from '@data/animations/burst1'
-import burstAnimation2 from '@data/animations/burst2'
-import burstAnimation3 from '@data/animations/burst3'
-
-import rockAnimation from '@data/animations/rock'
-import paperAnimation from '@data/animations/paper'
-import scissorsAnimation from '@data/animations/scissors'
-
-import type { TensionState, Choice } from '@engine/types'
-
-// Full animation registry
-export const animations: Record<string, string[]> = {
-  tilting: tiltingAnimation,
-  backandforth: backandforthAnimation,
-  sidetoside: sidetosideAnimation,
-  jiggle: jiggleAnimation,
-  wobble: wobbleAnimation,
-  wibblewobble: wibblewobbleAnimation,
-  forthandback: forthandbackAnimation,
-  shudder: shudderAnimation,
-  shudderbackandforth: shudderbackandforthAnimation,
-  shudderleftlean: shudderleftleanAnimation,
-  shudderrightlean: shudderrightleanAnimation,
-  flailleftlean: flailleftleanAnimation,
-  flailrightlean: flailrightleanAnimation,
-  tiltandquiver: tiltandquiverAnimation,
-  approach: approachAnimation,
-  shake: shakeAnimation,
-  convulse: convulseAnimation,
-  grasp1: graspAnimation1,
-  grasp2: graspAnimation2,
-  grasp3: graspAnimation3,
-  grasp4: graspAnimation4,
-  grasp5: graspAnimation5,
-  grasp6: graspAnimation6,
-  grasp7: graspAnimation7,
-  grasp8: graspAnimation8,
-  burst1: burstAnimation1,
-  burst2: burstAnimation2,
-  burst3: burstAnimation3,
-  rock: rockAnimation,
-  paper: paperAnimation,
-  scissors: scissorsAnimation,
-}
-
-// Animations mapped to tension states — pick randomly from pool
 export const tensionAnimations: Record<TensionState, string[]> = {
   CALM: ['tilting', 'backandforth', 'sidetoside'],
   UNEASY: ['jiggle', 'wobble', 'wibblewobble', 'forthandback'],
   IRRITATED: ['flailleftlean', 'flailrightlean', 'shudder', 'shudderbackandforth', 'shudderleftlean', 'shudderrightlean'],
   UNSTABLE: ['grasp1', 'grasp2', 'grasp3', 'grasp4', 'grasp5', 'grasp6', 'grasp7', 'grasp8'],
   MELTDOWN: ['tiltandquiver', 'approach', 'shake', 'convulse', 'burst1', 'burst2', 'burst3'],
-}
+};
 
-// Choice reveal animations
 const choiceAnimations: Record<Choice, string> = {
   rock: 'rock',
   paper: 'paper',
   scissors: 'scissors',
+};
+
+const graspAnimations = ['grasp1', 'grasp2', 'grasp3', 'grasp4', 'grasp5', 'grasp6', 'grasp7', 'grasp8'];
+const burstAnimations = ['burst1', 'burst2', 'burst3'];
+
+export function loadAnimations(): Promise<void> {
+  const base = import.meta.env.BASE_URL ?? '/';
+  const promises = ANIMATION_NAMES.map(async (name) => {
+    const res = await fetch(`${base}animations/${name}.json`);
+    const frames: string[] = await res.json();
+    animations[name] = frames;
+  });
+  return Promise.all(promises).then(() => undefined);
 }
 
-// Grasp sequence for "thinking" animation
-const graspAnimations = ['grasp1', 'grasp2', 'grasp3', 'grasp4', 'grasp5', 'grasp6', 'grasp7', 'grasp8']
-
-// Burst animations for victory moments
-const burstAnimations = ['burst1', 'burst2', 'burst3']
-
 export function getAnimationForTension(tension: TensionState): string[] {
-  const name = pickRandom(tensionAnimations[tension])
-  return animations[name]
+  const name = pickRandom(tensionAnimations[tension]);
+  return animations[name];
 }
 
 export function getAnimationByName(name: string): string[] {
-  return animations[name] || animations.wobble
+  return animations[name] || animations.wobble;
 }
 
 export function getChoiceAnimation(choice: Choice): string[] {
-  return animations[choiceAnimations[choice]]
+  return animations[choiceAnimations[choice]];
 }
 
 export function getGraspAnimation(): string[] {
-  return animations[pickRandom(graspAnimations)]
+  return animations[pickRandom(graspAnimations)];
 }
 
 export function getBurstAnimation(): string[] {
-  return animations[pickRandom(burstAnimations)]
+  return animations[pickRandom(burstAnimations)];
 }
 
-// Frame rate per tension state (ms between frames)
 export const tensionFrameRate: Record<TensionState, number> = {
   CALM: 84,
   UNEASY: 70,
   IRRITATED: 56,
   UNSTABLE: 42,
   MELTDOWN: 28,
-}
+};
