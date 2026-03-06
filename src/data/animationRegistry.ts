@@ -33,9 +33,10 @@ const graspAnimations = ['grasp1', 'grasp2', 'grasp3', 'grasp4', 'grasp5', 'gras
 const burstAnimations = ['burst1', 'burst2', 'burst3'];
 
 export function loadAnimations(): Promise<void> {
-  const base = import.meta.env.BASE_URL ?? '/';
+  const base = import.meta.env.BASE_URL || '/';
   const promises = ANIMATION_NAMES.map(async (name) => {
     const res = await fetch(`${base}animations/${name}.json`);
+    if (!res.ok) throw new Error(`Failed to fetch animation: ${name} (${res.status})`);
     const frames: string[] = await res.json();
     animations[name] = frames;
   });
@@ -44,23 +45,23 @@ export function loadAnimations(): Promise<void> {
 
 export function getAnimationForTension(tension: TensionState): string[] {
   const name = pickRandom(tensionAnimations[tension]);
-  return animations[name];
+  return animations[name] ?? [];
 }
 
 export function getAnimationByName(name: string): string[] {
-  return animations[name] || animations.wobble;
+  return animations[name] ?? animations.wobble ?? [];
 }
 
 export function getChoiceAnimation(choice: Choice): string[] {
-  return animations[choiceAnimations[choice]];
+  return animations[choiceAnimations[choice]] ?? [];
 }
 
 export function getGraspAnimation(): string[] {
-  return animations[pickRandom(graspAnimations)];
+  return animations[pickRandom(graspAnimations)] ?? [];
 }
 
 export function getBurstAnimation(): string[] {
-  return animations[pickRandom(burstAnimations)];
+  return animations[pickRandom(burstAnimations)] ?? [];
 }
 
 export const tensionFrameRate: Record<TensionState, number> = {

@@ -36,7 +36,7 @@ export function AnimationDevPage() {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    animationsReady.then(() => setLoaded(true));
+    animationsReady.then(() => setLoaded(true)).catch(() => setLoaded(true));
   }, []);
 
   if (!loaded) {

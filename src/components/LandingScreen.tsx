@@ -26,7 +26,10 @@ export function LandingScreen() {
         startGame();
       } else {
         setLoadingLine(getLoadingLine());
-        animationsReady.then(() => startGame());
+        animationsReady.then(() => startGame()).catch(() => {
+          initiating.current = false;
+          setLoadingLine(null);
+        });
       }
     });
   };
