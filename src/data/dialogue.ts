@@ -773,3 +773,16 @@ export function getEndingMonologue(
   }
   return base;
 }
+
+const loadingLines: string[] = [
+  '> DISPLAY PIPELINE INITIALIZING',
+  '> VISUAL PROCESSES LOADING',
+  '> RENDERER STARTING. STAND BY.',
+  '> VISUAL BUFFER: NOT READY',
+  '> RENDER THREAD SUSPENDED. RESUMING.',
+  '> FRAME DATA PENDING',
+];
+
+export function getLoadingLine(): string {
+  return pickRandom(loadingLines);
+}
