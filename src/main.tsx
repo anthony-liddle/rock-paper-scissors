@@ -5,6 +5,7 @@ import { SoundDevPage } from '@pages/dev/SoundDevPage'
 import { ResetDevPage } from '@pages/dev/ResetDevPage'
 import { AnimationDevPage } from '@pages/dev/AnimationDevPage'
 import { initAnalytics } from '@engine/analytics'
+import '@data/animationsReady'
 
 // The robot knows when you're looking behind the curtain
 console.log(
