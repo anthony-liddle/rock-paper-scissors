@@ -57,7 +57,7 @@ export function LandingScreen() {
 
   const showNext = done && !dialogueComplete && loadingLine === null;
   const showButton = dialogueComplete && done && loadingLine === null;
-  const displayedText = loadingLine !== null ? loadingLine : displayed;
+  const displayedText = loadingLine !== null ? loadingLine.slice(2) : displayed;
 
   return (
     <div className="landing-screen">
@@ -77,12 +77,12 @@ export function LandingScreen() {
       `}</pre>
       <p className="tagline">"It's just Rock Paper Scissors."</p>
       <div
-        className="dialogue-box"
+        className={`dialogue-box${loadingLine !== null ? ' system-line' : ''}`}
         onClick={handleDialogueClick}
         style={{ cursor: (!done || !dialogueComplete) && loadingLine === null ? 'pointer' : 'default' }}
       >
         <div className="dialogue-content">
-          <span className="dialogue-prompt">&gt; </span>
+          {loadingLine === null && <span className="dialogue-prompt">&gt; </span>}
           <span className="dialogue-text">{displayedText}</span>
           <span className="cursor">_</span>
           <span className="dialogue-reserve" aria-hidden="true">{loadingLine === null ? currentLine.slice(displayed.length) : ''}</span>
