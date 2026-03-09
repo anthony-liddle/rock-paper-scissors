@@ -28,7 +28,7 @@ export const PERMISSION_THRESHOLDS: PermissionThreshold[] = [
 function isPermissionSupported(type: PermissionType): boolean {
   switch (type) {
     case 'notification':
-      return 'Notification' in window;
+      return 'Notification' in window && window === window.top;
     case 'geolocation':
       return 'geolocation' in navigator;
     case 'camera':
