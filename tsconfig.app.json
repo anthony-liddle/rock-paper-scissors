@@ -21,28 +21,27 @@
     "noEmit": true,
     "jsx": "react-jsx",
     /* Path aliases */
-    "baseUrl": ".",
     "paths": {
       "@engine/*": [
-        "src/engine/*"
+        "./src/engine/*"
       ],
       "@hooks/*": [
-        "src/hooks/*"
+        "./src/hooks/*"
       ],
       "@components/*": [
-        "src/components/*"
+        "./src/components/*"
       ],
       "@data/*": [
-        "src/data/*"
+        "./src/data/*"
       ],
       "@styles/*": [
-        "src/styles/*"
+        "./src/styles/*"
       ],
       "@utils/*": [
-        "src/utils/*"
+        "./src/utils/*"
       ],
       "@pages/*": [
-        "src/pages/*"
+        "./src/pages/*"
       ]
     },
     /* Linting */
