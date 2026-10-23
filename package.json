@@ -13,10 +13,10 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "posthog-js": "^1.433.5",
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0",
-    "soundscape-engine": "^0.3.0"
+    "posthog-js": "^1.438.13",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "soundscape-engine": "^0.4.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^21.2.0",
